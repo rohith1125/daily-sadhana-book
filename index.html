@@ -22,6 +22,7 @@ const prayers = [
     deity: "Shri Ganesha",
     icon: "🕉️",
     color: "#C45B28",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Ganesha_Basohli_miniature_circa_1730_Dubost_p73.jpg/400px-Ganesha_Basohli_miniature_circa_1730_Dubost_p73.jpg",
     subtitle: "Slow-Chant Version — 41-Day Sādhana Practice",
     note: "Read each segment slowly, with a slight pause. Do not rush. Do not worry about perfect accents — only consistency matters. This full slow chant takes 7–9 minutes, perfect for your daily sādhana.",
     sections: [
@@ -323,6 +324,7 @@ const prayers = [
     deity: "Surya Deva",
     icon: "☀️",
     color: "#D4A017",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Surya%2C_the_Hindu_Sun_God_%28illustration%2C_1913%29.jpg/400px-Surya%2C_the_Hindu_Sun_God_%28illustration%2C_1913%29.jpg",
     subtitle: "12 Names of Sūrya for offering water at sunrise",
     sections: [
       {
@@ -359,6 +361,7 @@ const prayers = [
     title: "Sarasvatī Namastubhyam",
     deity: "Devi Saraswati",
     icon: "📿",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Saraswati_by_Raja_Ravi_Varma.jpg/400px-Saraswati_by_Raja_Ravi_Varma.jpg",
     color: "#E8E8E8",
     sections: [
       {
@@ -381,6 +384,7 @@ const prayers = [
     id: "chalisa",
     title: "Hanumān Chālīsā",
     deity: "Shri Hanuman",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Hanuman_Nathdwara_c1880.jpg/400px-Hanuman_Nathdwara_c1880.jpg",
     icon: "🔱",
     color: "#E85D3A",
     sections: [
@@ -469,6 +473,7 @@ const prayers = [
     id: "karyasiddhi",
     title: "Kārya Siddhi Hanumān Mantra",
     deity: "Shri Hanuman",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Hanuman_Nathdwara_c1880.jpg/400px-Hanuman_Nathdwara_c1880.jpg",
     icon: "⚡",
     color: "#E85D3A",
     hasCounter: true,
@@ -506,6 +511,7 @@ const prayers = [
     deity: "Devi Durga",
     icon: "🔥",
     color: "#8B0000",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Durga_Mahisasuramardini.jpg/400px-Durga_Mahisasuramardini.jpg",
     subtitle: "From the uploaded image — Arjuna's hymn to Durgā in IAST",
     sections: [
       {
@@ -546,6 +552,7 @@ const prayers = [
     title: "Mahālakṣmī Aṣṭakam",
     deity: "Devi Mahalakshmi",
     icon: "🪷",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Mahalakshmi.jpg/400px-Mahalakshmi.jpg",
     color: "#C71585",
     subtitle: "Indra Uvācha — From Padma Purāṇa",
     hasCounter: true,
@@ -600,6 +607,7 @@ const prayers = [
     title: "Kanakadhārā Stotram",
     deity: "Devi Lakshmi",
     icon: "✨",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Lakshmi_by_Raja_Ravi_Varma.jpg/400px-Lakshmi_by_Raja_Ravi_Varma.jpg",
     color: "#DAA520",
     subtitle: "By Śrī Ādi Śaṅkarāchārya — Nanduri Srinivas Chanting Order",
     sections: [
@@ -776,6 +784,7 @@ const prayers = [
     title: "Mātaṅgeśvarī Mantra",
     deity: "Devi Matangi",
     icon: "💚",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Matangi-devi.jpg/400px-Matangi-devi.jpg",
     color: "#2E8B57",
     subtitle: "For career success and speedy fulfillment of desires",
     hasCounter: true,
@@ -802,6 +811,7 @@ const prayers = [
   },
   {
     id: "saravanabhava",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Murugan_with_Valli_and_Devasena.jpg/400px-Murugan_with_Valli_and_Devasena.jpg",
     title: "Om Saravāṇabhavāya Namaḥ",
     deity: "Lord Murugan (Kārttikeya)",
     icon: "🔱",
@@ -837,6 +847,7 @@ const prayers = [
   },
   {
     id: "navagraha",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Navagrahas_at_Suryanar_Kovil.jpg/400px-Navagrahas_at_Suryanar_Kovil.jpg",
     title: "Navagraha Mantras",
     deity: "Nine Planets",
     icon: "🌙",
@@ -923,12 +934,14 @@ function PrayerView({ prayer, onBack, japaCount, setJapaCount }) {
   const topRef = useRef(null);
   const count = japaCount;
   const setCount = setJapaCount;
+  const [imgError, setImgError] = useState(false);
   useEffect(() => {
     topRef.current?.scrollIntoView({ behavior: "auto" });
+    setImgError(false);
   }, [prayer.id]);
 
   return (
-    <div style={{ minHeight: "100vh", background: "#0A0A0F" }}>
+    <div style={{ minHeight: "100vh", background: `linear-gradient(180deg, ${prayer.color}22 0%, #0A0A0F 400px)` }}>
       <div ref={topRef} />
 
       {/* Header */}
@@ -990,6 +1003,43 @@ function PrayerView({ prayer, onBack, japaCount, setJapaCount }) {
           </div>
         </div>
       </div>
+
+      {/* Deity Image Hero */}
+      {prayer.image && !imgError && (
+        <div style={{ position: "relative", width: "100%", height: 260, overflow: "hidden" }}>
+          <img
+            src={prayer.image}
+            alt={prayer.deity}
+            onError={() => setImgError(true)}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "top center",
+              display: "block",
+            }}
+          />
+          <div style={{
+            position: "absolute", inset: 0,
+            background: `linear-gradient(to bottom, transparent 40%, #0A0A0F 100%)`,
+          }} />
+          <div style={{
+            position: "absolute", inset: 0,
+            background: `linear-gradient(135deg, ${prayer.color}33, transparent 60%)`,
+          }} />
+          <div style={{
+            position: "absolute", bottom: 16, left: 24,
+            fontFamily: "'EB Garamond', Georgia, serif",
+            fontSize: 13,
+            color: `${prayer.color}CC`,
+            letterSpacing: "0.1em",
+            textTransform: "uppercase",
+            fontStyle: "italic",
+          }}>
+            {prayer.deity}
+          </div>
+        </div>
+      )}
 
       {/* Note */}
       {prayer.note && (
@@ -1416,18 +1466,28 @@ function DailySadhanaBook() {
           >
             <span
               style={{
-                fontSize: 26,
-                width: 42,
-                height: 42,
+                width: 48,
+                height: 48,
+                borderRadius: 8,
+                flexShrink: 0,
+                overflow: "hidden",
+                background: `${prayer.color}15`,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                background: `${prayer.color}15`,
-                borderRadius: 8,
-                flexShrink: 0,
+                fontSize: 26,
+                position: "relative",
               }}
             >
-              {prayer.icon}
+              {prayer.image ? (
+                <img
+                  src={prayer.image}
+                  alt={prayer.deity}
+                  onError={(e) => { e.target.style.display = "none"; e.target.nextSibling.style.display = "flex"; }}
+                  style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }}
+                />
+              ) : null}
+              <span style={{ display: prayer.image ? "none" : "flex", position: "absolute", inset: 0, alignItems: "center", justifyContent: "center" }}>{prayer.icon}</span>
             </span>
             <div style={{ flex: 1, minWidth: 0 }}>
               <div
