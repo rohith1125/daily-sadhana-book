@@ -938,13 +938,10 @@ function DeityAnimation({ id, color, thumb }) {
   const cy = thumb ? 24 : 130;
   const sc = thumb ? 0.18 : 1;
 
-  const common = {
-    width: w, height: h, display: "block",
-    style: thumb ? {} : { position: "relative" }
-  };
+  const svgStyle = { display: "block", overflow: "visible" };
 
   if (id === "ganapati") return (
-    <svg {...common} viewBox={vb} style={{ overflow: "visible" }}>
+    <svg width={w} height={h} viewBox={vb} style={svgStyle} style={{ overflow: "visible" }}>
       <defs>
         <radialGradient id="gBg" cx="50%" cy="50%" r="50%">
           <stop offset="0%" stopColor={color} stopOpacity="0.25"/>
@@ -975,7 +972,7 @@ function DeityAnimation({ id, color, thumb }) {
   );
 
   if (id === "surya") return (
-    <svg {...common} viewBox={vb}>
+    <svg width={w} height={h} viewBox={vb} style={svgStyle}>
       <defs>
         <radialGradient id="sBg" cx="50%" cy="50%" r="50%">
           <stop offset="0%" stopColor={color} stopOpacity="0.4"/>
@@ -1010,7 +1007,7 @@ function DeityAnimation({ id, color, thumb }) {
   );
 
   if (id === "saraswati") return (
-    <svg {...common} viewBox={vb}>
+    <svg width={w} height={h} viewBox={vb} style={svgStyle}>
       <defs>
         <radialGradient id="swBg" cx="50%" cy="50%" r="60%">
           <stop offset="0%" stopColor="#E8E8E8" stopOpacity="0.2"/>
@@ -1050,7 +1047,7 @@ function DeityAnimation({ id, color, thumb }) {
   );
 
   if (id === "chalisa" || id === "karyasiddhi") return (
-    <svg {...common} viewBox={vb}>
+    <svg width={w} height={h} viewBox={vb} style={svgStyle}>
       <defs>
         <radialGradient id="hBg" cx="50%" cy="70%" r="60%">
           <stop offset="0%" stopColor={color} stopOpacity="0.35"/>
@@ -1089,7 +1086,7 @@ function DeityAnimation({ id, color, thumb }) {
   );
 
   if (id === "durga") return (
-    <svg {...common} viewBox={vb}>
+    <svg width={w} height={h} viewBox={vb} style={svgStyle}>
       <defs>
         <radialGradient id="dBg" cx="50%" cy="50%" r="55%">
           <stop offset="0%" stopColor={color} stopOpacity="0.3"/>
@@ -1129,7 +1126,7 @@ function DeityAnimation({ id, color, thumb }) {
   );
 
   if (id === "lakshmi" || id === "kanakadhara") return (
-    <svg {...common} viewBox={vb}>
+    <svg width={w} height={h} viewBox={vb} style={svgStyle}>
       <defs>
         <radialGradient id="lBg" cx="50%" cy="50%" r="55%">
           <stop offset="0%" stopColor={color} stopOpacity="0.3"/>
@@ -1173,7 +1170,7 @@ function DeityAnimation({ id, color, thumb }) {
   );
 
   if (id === "matangi") return (
-    <svg {...common} viewBox={vb}>
+    <svg width={w} height={h} viewBox={vb} style={svgStyle}>
       <defs>
         <radialGradient id="mBg" cx="50%" cy="50%" r="55%">
           <stop offset="0%" stopColor={color} stopOpacity="0.3"/>
@@ -1208,7 +1205,7 @@ function DeityAnimation({ id, color, thumb }) {
   );
 
   if (id === "saravanabhava") return (
-    <svg {...common} viewBox={vb}>
+    <svg width={w} height={h} viewBox={vb} style={svgStyle}>
       <defs>
         <radialGradient id="muBg" cx="50%" cy="50%" r="55%">
           <stop offset="0%" stopColor={color} stopOpacity="0.3"/>
@@ -1243,7 +1240,7 @@ function DeityAnimation({ id, color, thumb }) {
   );
 
   if (id === "navagraha") return (
-    <svg {...common} viewBox={vb}>
+    <svg width={w} height={h} viewBox={vb} style={svgStyle}>
       <defs>
         <radialGradient id="ngBg" cx="50%" cy="50%" r="55%">
           <stop offset="0%" stopColor="#FFD700" stopOpacity="0.2"/>
@@ -1273,7 +1270,7 @@ function DeityAnimation({ id, color, thumb }) {
 
   // Default fallback
   return (
-    <svg {...common} viewBox={vb}>
+    <svg width={w} height={h} viewBox={vb} style={svgStyle}>
       <circle cx={cx} cy={cy} r={thumb?20:100} fill={color} opacity="0.1"
         style={{ animation:"pulse 3s ease-in-out infinite" }}/>
       <text x={cx} y={cy+8} textAnchor="middle" fontSize={thumb?20:80}
