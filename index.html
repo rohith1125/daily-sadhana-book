@@ -26,6 +26,13 @@ const prayers = [
     note: "Read each segment slowly, with a slight pause. Do not rush. Do not worry about perfect accents — only consistency matters. This full slow chant takes 7–9 minutes, perfect for your daily sādhana.",
     sections: [
       {
+        heading: "Śuklāmbaradharaṃ (Opening Prayer)",
+        lines: [
+          "Śuklāmbaradharaṃ Viṣṇuṃ Śaśivarṇaṃ Caturbhujaṃ",
+          "Prasanna Vadanaṃ Dhyāyet Sarvavighnopaśāntaye",
+        ],
+      },
+      {
         heading: "Opening Shānti Verse (Slow)",
         lines: [
           "Om bhad-ram",
@@ -308,6 +315,43 @@ const prayers = [
     ],
   },
   {
+    id: "surya",
+    title: "Sūrya Arghya — Dvādaśa Nāma",
+    deity: "Surya Deva",
+    icon: "☀️",
+    color: "#D4A017",
+    subtitle: "12 Names of Sūrya for offering water at sunrise",
+    sections: [
+      {
+        heading: "Dvādaśa Sūrya Namaskāra",
+        lines: [
+          "Om Mitrāya Namaḥ",
+          "Om Ravaye Namaḥ",
+          "Om Sūryāya Namaḥ",
+          "Om Bhānave Namaḥ",
+          "Om Khagāya Namaḥ",
+          "Om Pūṣṇe Namaḥ",
+          "Om Hiraṇyagarbhāya Namaḥ",
+          "Om Marīcaye Namaḥ",
+          "Om Ādityāya Namaḥ",
+          "Om Savitre Namaḥ",
+          "Om Arkāya Namaḥ",
+          "Om Bhāskarāya Namaḥ",
+        ],
+      },
+      {
+        heading: "Sūrya Prārthanā",
+        lines: [
+          "Ādideva Namastubhyaṃ Prasīda Mama Bhāskara",
+          "Divākara Namastubhyaṃ Prabhākara Namo'stu Te",
+          "",
+          "Ādityasya Namaskāraṃ Ye Kurvanti Dine Dine",
+          "Janmāntara Sahasreṣu Dāridryaṃ Nopajāyate",
+        ],
+      },
+    ],
+  },
+  {
     id: "saraswati",
     title: "Sarasvatī Namastubhyam",
     deity: "Devi Saraswati",
@@ -454,43 +498,6 @@ const prayers = [
     ],
   },
   {
-    id: "surya",
-    title: "Sūrya Arghya — Dvādaśa Nāma",
-    deity: "Surya Deva",
-    icon: "☀️",
-    color: "#D4A017",
-    subtitle: "12 Names of Sūrya for offering water at sunrise",
-    sections: [
-      {
-        heading: "Dvādaśa Sūrya Namaskāra",
-        lines: [
-          "Om Mitrāya Namaḥ",
-          "Om Ravaye Namaḥ",
-          "Om Sūryāya Namaḥ",
-          "Om Bhānave Namaḥ",
-          "Om Khagāya Namaḥ",
-          "Om Pūṣṇe Namaḥ",
-          "Om Hiraṇyagarbhāya Namaḥ",
-          "Om Marīcaye Namaḥ",
-          "Om Ādityāya Namaḥ",
-          "Om Savitre Namaḥ",
-          "Om Arkāya Namaḥ",
-          "Om Bhāskarāya Namaḥ",
-        ],
-      },
-      {
-        heading: "Sūrya Prārthanā",
-        lines: [
-          "Ādideva Namastubhyaṃ Prasīda Mama Bhāskara",
-          "Divākara Namastubhyaṃ Prabhākara Namo'stu Te",
-          "",
-          "Ādityasya Namaskāraṃ Ye Kurvanti Dine Dine",
-          "Janmāntara Sahasreṣu Dāridryaṃ Nopajāyate",
-        ],
-      },
-    ],
-  },
-  {
     id: "durga",
     title: "Durgādevīstavaṃ — Arjuna Kṛta",
     deity: "Devi Durga",
@@ -538,6 +545,8 @@ const prayers = [
     icon: "🪷",
     color: "#C71585",
     subtitle: "Indra Uvācha — From Padma Purāṇa",
+    hasCounter: true,
+    counterMax: 3,
     sections: [
       {
         heading: "Mahālakṣmī Aṣṭakam",
@@ -1035,7 +1044,7 @@ function PrayerView({ prayer, onBack }) {
               {count}
             </div>
             <button
-              onClick={() => setCount((c) => Math.min(9, c + 1))}
+              onClick={() => setCount((c) => Math.min(prayer.counterMax ?? 9, c + 1))}
               style={{
                 width: 48,
                 height: 48,
