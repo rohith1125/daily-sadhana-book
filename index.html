@@ -9,6 +9,17 @@
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <style>* { margin: 0; padding: 0; box-sizing: border-box; } body { background: #0a0a0a; }</style>
+  <style>
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes spinReverse { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+    @keyframes pulse { 0%,100% { opacity:0.6; transform: scale(1); } 50% { opacity:1; transform: scale(1.08); } }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    @keyframes glow { 0%,100% { filter: drop-shadow(0 0 6px currentColor); } 50% { filter: drop-shadow(0 0 18px currentColor); } }
+    @keyframes bloom { 0% { transform: scale(0.7) rotate(-10deg); opacity:0; } 100% { transform: scale(1) rotate(0deg); opacity:1; } }
+    @keyframes rain { 0% { transform: translateY(-20px); opacity:0; } 80% { opacity:1; } 100% { transform: translateY(280px); opacity:0; } }
+    @keyframes orbit { from { transform: rotate(0deg) translateX(var(--r)) rotate(0deg); } to { transform: rotate(360deg) translateX(var(--r)) rotate(-360deg); } }
+    @keyframes flicker { 0%,100% { transform: scaleY(1) scaleX(1); } 25% { transform: scaleY(1.1) scaleX(0.95); } 75% { transform: scaleY(0.9) scaleX(1.05); } }
+  </style>
 </head>
 <body>
   <div id="root"></div>
@@ -22,7 +33,6 @@ const prayers = [
     deity: "Shri Ganesha",
     icon: "🕉️",
     color: "#C45B28",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Ganesha_Basohli_miniature_circa_1730_Dubost_p73.jpg/400px-Ganesha_Basohli_miniature_circa_1730_Dubost_p73.jpg",
     subtitle: "Slow-Chant Version — 41-Day Sādhana Practice",
     note: "Read each segment slowly, with a slight pause. Do not rush. Do not worry about perfect accents — only consistency matters. This full slow chant takes 7–9 minutes, perfect for your daily sādhana.",
     sections: [
@@ -324,7 +334,6 @@ const prayers = [
     deity: "Surya Deva",
     icon: "☀️",
     color: "#D4A017",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Surya%2C_the_Hindu_Sun_God_%28illustration%2C_1913%29.jpg/400px-Surya%2C_the_Hindu_Sun_God_%28illustration%2C_1913%29.jpg",
     subtitle: "12 Names of Sūrya for offering water at sunrise",
     sections: [
       {
@@ -361,7 +370,6 @@ const prayers = [
     title: "Sarasvatī Namastubhyam",
     deity: "Devi Saraswati",
     icon: "📿",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Saraswati_by_Raja_Ravi_Varma.jpg/400px-Saraswati_by_Raja_Ravi_Varma.jpg",
     color: "#E8E8E8",
     sections: [
       {
@@ -384,7 +392,6 @@ const prayers = [
     id: "chalisa",
     title: "Hanumān Chālīsā",
     deity: "Shri Hanuman",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Hanuman_Nathdwara_c1880.jpg/400px-Hanuman_Nathdwara_c1880.jpg",
     icon: "🔱",
     color: "#E85D3A",
     sections: [
@@ -473,7 +480,6 @@ const prayers = [
     id: "karyasiddhi",
     title: "Kārya Siddhi Hanumān Mantra",
     deity: "Shri Hanuman",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Hanuman_Nathdwara_c1880.jpg/400px-Hanuman_Nathdwara_c1880.jpg",
     icon: "⚡",
     color: "#E85D3A",
     hasCounter: true,
@@ -511,7 +517,6 @@ const prayers = [
     deity: "Devi Durga",
     icon: "🔥",
     color: "#8B0000",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Durga_Mahisasuramardini.jpg/400px-Durga_Mahisasuramardini.jpg",
     subtitle: "From the uploaded image — Arjuna's hymn to Durgā in IAST",
     sections: [
       {
@@ -552,7 +557,6 @@ const prayers = [
     title: "Mahālakṣmī Aṣṭakam",
     deity: "Devi Mahalakshmi",
     icon: "🪷",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Mahalakshmi.jpg/400px-Mahalakshmi.jpg",
     color: "#C71585",
     subtitle: "Indra Uvācha — From Padma Purāṇa",
     hasCounter: true,
@@ -607,7 +611,6 @@ const prayers = [
     title: "Kanakadhārā Stotram",
     deity: "Devi Lakshmi",
     icon: "✨",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Lakshmi_by_Raja_Ravi_Varma.jpg/400px-Lakshmi_by_Raja_Ravi_Varma.jpg",
     color: "#DAA520",
     subtitle: "By Śrī Ādi Śaṅkarāchārya — Nanduri Srinivas Chanting Order",
     sections: [
@@ -784,7 +787,6 @@ const prayers = [
     title: "Mātaṅgeśvarī Mantra",
     deity: "Devi Matangi",
     icon: "💚",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Matangi-devi.jpg/400px-Matangi-devi.jpg",
     color: "#2E8B57",
     subtitle: "For career success and speedy fulfillment of desires",
     hasCounter: true,
@@ -811,7 +813,6 @@ const prayers = [
   },
   {
     id: "saravanabhava",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Murugan_with_Valli_and_Devasena.jpg/400px-Murugan_with_Valli_and_Devasena.jpg",
     title: "Om Saravāṇabhavāya Namaḥ",
     deity: "Lord Murugan (Kārttikeya)",
     icon: "🔱",
@@ -847,7 +848,6 @@ const prayers = [
   },
   {
     id: "navagraha",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Navagrahas_at_Suryanar_Kovil.jpg/400px-Navagrahas_at_Suryanar_Kovil.jpg",
     title: "Navagraha Mantras",
     deity: "Nine Planets",
     icon: "🌙",
@@ -930,14 +930,364 @@ const prayers = [
   },
 ];
 
+function DeityAnimation({ id, color, thumb }) {
+  const w = thumb ? 48 : "100%";
+  const h = thumb ? 48 : 260;
+  const vb = thumb ? "0 0 48 48" : "0 0 400 260";
+  const cx = thumb ? 24 : 200;
+  const cy = thumb ? 24 : 130;
+  const sc = thumb ? 0.18 : 1;
+
+  const common = {
+    width: w, height: h, display: "block",
+    style: thumb ? {} : { position: "relative" }
+  };
+
+  if (id === "ganapati") return (
+    <svg {...common} viewBox={vb} style={{ overflow: "visible" }}>
+      <defs>
+        <radialGradient id="gBg" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor={color} stopOpacity="0.25"/>
+          <stop offset="100%" stopColor="#0A0A0F" stopOpacity="0"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx={cx} cy={cy} rx={thumb?22:180} ry={thumb?22:120} fill="url(#gBg)"/>
+      {/* Rotating mala ring */}
+      {[...Array(12)].map((_,i) => (
+        <circle key={i} cx={cx} cy={cy} r={thumb?1.5:5} fill={color} opacity="0.7"
+          style={{ transformOrigin:`${cx}px ${cy}px`, animation:`spin ${8+i*0.3}s linear infinite`,
+            transform:`rotate(${i*30}deg) translateX(${thumb?14:90}px)` }}/>
+      ))}
+      {/* OM symbol */}
+      <text x={cx} y={cy + (thumb?7:22)} textAnchor="middle"
+        fontSize={thumb?20:80} fill={color} opacity="0.9" fontFamily="serif"
+        style={{ animation:"pulse 3s ease-in-out infinite", transformOrigin:`${cx}px ${cy}px` }}>ॐ</text>
+      {/* Tusk arc left */}
+      {!thumb && <path d="M160,90 Q130,130 155,165" stroke={color} strokeWidth="4" fill="none" opacity="0.5" strokeLinecap="round"/>}
+      {!thumb && <path d="M240,90 Q270,130 245,165" stroke={color} strokeWidth="4" fill="none" opacity="0.5" strokeLinecap="round"/>}
+      {/* Glow particles */}
+      {[...Array(thumb?0:6)].map((_,i) => (
+        <circle key={i} cx={cx + Math.cos(i*60*Math.PI/180)*110} cy={cy + Math.sin(i*60*Math.PI/180)*60}
+          r="3" fill={color} opacity="0.4"
+          style={{ animation:`pulse ${2+i*0.4}s ease-in-out infinite ${i*0.3}s` }}/>
+      ))}
+    </svg>
+  );
+
+  if (id === "surya") return (
+    <svg {...common} viewBox={vb}>
+      <defs>
+        <radialGradient id="sBg" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor={color} stopOpacity="0.4"/>
+          <stop offset="100%" stopColor="#0A0A0F" stopOpacity="0"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx={cx} cy={cy} rx={thumb?24:200} ry={thumb?24:130} fill="url(#sBg)"/>
+      {/* 12 rays */}
+      {[...Array(12)].map((_,i) => (
+        <line key={i} x1={cx} y1={cy}
+          x2={cx + Math.cos(i*30*Math.PI/180)*(thumb?20:95)}
+          y2={cy + Math.sin(i*30*Math.PI/180)*(thumb?20:95)}
+          stroke={color} strokeWidth={thumb?1:2.5} opacity="0.5" strokeLinecap="round"
+          style={{ transformOrigin:`${cx}px ${cy}px`, animation:`spin 12s linear infinite` }}/>
+      ))}
+      {/* Sun disc */}
+      <circle cx={cx} cy={cy} r={thumb?10:50} fill={color} opacity="0.15"
+        style={{ animation:"pulse 2s ease-in-out infinite" }}/>
+      <circle cx={cx} cy={cy} r={thumb?7:35} fill={color} opacity="0.25"
+        style={{ animation:"pulse 2s ease-in-out infinite 0.3s" }}/>
+      <circle cx={cx} cy={cy} r={thumb?4:22} fill={color} opacity="0.7"
+        style={{ animation:"glow 2s ease-in-out infinite" }}/>
+      {/* Lotus petals at base */}
+      {!thumb && [0,60,120,180,240,300].map((a,i) => (
+        <ellipse key={i} cx={cx + Math.cos((a-90)*Math.PI/180)*30}
+          cy={cy + Math.sin((a-90)*Math.PI/180)*30 + 50}
+          rx="10" ry="18" fill={color} opacity="0.15"
+          transform={`rotate(${a}, ${cx + Math.cos((a-90)*Math.PI/180)*30}, ${cy + Math.sin((a-90)*Math.PI/180)*30 + 50})`}
+          style={{ animation:`pulse ${2+i*0.2}s ease-in-out infinite ${i*0.1}s` }}/>
+      ))}
+    </svg>
+  );
+
+  if (id === "saraswati") return (
+    <svg {...common} viewBox={vb}>
+      <defs>
+        <radialGradient id="swBg" cx="50%" cy="50%" r="60%">
+          <stop offset="0%" stopColor="#E8E8E8" stopOpacity="0.2"/>
+          <stop offset="100%" stopColor="#0A0A0F" stopOpacity="0"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx={cx} cy={cy} rx={thumb?24:200} ry={thumb?24:130} fill="url(#swBg)"/>
+      {/* Lotus petals */}
+      {[0,45,90,135,180,225,270,315].map((a,i) => (
+        <ellipse key={i}
+          cx={cx + Math.cos((a-90)*Math.PI/180)*(thumb?12:55)}
+          cy={cy + Math.sin((a-90)*Math.PI/180)*(thumb?12:55)}
+          rx={thumb?3:14} ry={thumb?6:28}
+          fill="white" opacity="0.12"
+          transform={`rotate(${a}, ${cx + Math.cos((a-90)*Math.PI/180)*(thumb?12:55)}, ${cy + Math.sin((a-90)*Math.PI/180)*(thumb?12:55)})`}
+          style={{ animation:`pulse ${2.5+i*0.15}s ease-in-out infinite ${i*0.2}s` }}/>
+      ))}
+      {/* Veena string curves */}
+      {!thumb && [0,1,2,3].map(i => (
+        <path key={i} d={`M${140+i*8},${cy-40} Q${cx},${cy+40} ${260-i*8},${cy-40}`}
+          stroke="white" strokeWidth="1" fill="none" opacity={0.15+i*0.05}
+          style={{ animation:`float ${3+i*0.5}s ease-in-out infinite ${i*0.4}s` }}/>
+      ))}
+      {/* Central veena dot */}
+      <circle cx={cx} cy={cy} r={thumb?8:35} fill="none" stroke="white" strokeWidth={thumb?1:2} opacity="0.2"
+        style={{ animation:"pulse 3s ease-in-out infinite" }}/>
+      <text x={cx} y={cy+(thumb?6:18)} textAnchor="middle" fontSize={thumb?12:50}
+        fill="white" opacity="0.5" fontFamily="serif"
+        style={{ animation:"glow 3s ease-in-out infinite" }}>सर</text>
+      {/* Floating notes */}
+      {!thumb && [0,1,2,3,4].map(i => (
+        <text key={i} x={cx + (i-2)*50} y={cy - 60 + (i%2)*20}
+          fontSize="16" fill="white" opacity="0.2" textAnchor="middle"
+          style={{ animation:`float ${2+i*0.3}s ease-in-out infinite ${i*0.5}s` }}>♪</text>
+      ))}
+    </svg>
+  );
+
+  if (id === "chalisa" || id === "karyasiddhi") return (
+    <svg {...common} viewBox={vb}>
+      <defs>
+        <radialGradient id="hBg" cx="50%" cy="70%" r="60%">
+          <stop offset="0%" stopColor={color} stopOpacity="0.35"/>
+          <stop offset="100%" stopColor="#0A0A0F" stopOpacity="0"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx={cx} cy={cy+20} rx={thumb?24:200} ry={thumb?20:110} fill="url(#hBg)"/>
+      {/* Mountain silhouette */}
+      {!thumb && <polygon points={`${cx-120},${cy+80} ${cx},${cy-60} ${cx+120},${cy+80}`}
+        fill={color} opacity="0.08"/>}
+      {/* Flame */}
+      <ellipse cx={cx} cy={cy+(thumb?5:30)} rx={thumb?5:25} ry={thumb?10:50}
+        fill={color} opacity="0.4"
+        style={{ animation:"flicker 1.5s ease-in-out infinite", transformOrigin:`${cx}px ${cy+(thumb?5:30)}px` }}/>
+      <ellipse cx={cx} cy={cy+(thumb?5:30)} rx={thumb?3:15} ry={thumb?7:35}
+        fill={color} opacity="0.6"
+        style={{ animation:"flicker 1.2s ease-in-out infinite 0.2s", transformOrigin:`${cx}px ${cy+(thumb?5:30)}px` }}/>
+      <ellipse cx={cx} cy={cy+(thumb?5:30)} rx={thumb?1.5:7} ry={thumb?4:18}
+        fill="white" opacity="0.5"
+        style={{ animation:"flicker 1s ease-in-out infinite 0.1s", transformOrigin:`${cx}px ${cy+(thumb?5:30)}px` }}/>
+      {/* Mace */}
+      {!thumb && <line x1={cx+60} y1={cy+80} x2={cx+80} y2={cy-40} stroke={color} strokeWidth="5" strokeLinecap="round" opacity="0.4"/>}
+      {!thumb && <circle cx={cx+82} cy={cy-44} r="12" fill={color} opacity="0.4"/>}
+      {/* Saffron sparks */}
+      {[...Array(thumb?0:8)].map((_,i) => (
+        <circle key={i}
+          cx={cx + (Math.random()-0.5)*160}
+          cy={cy - 20 - i*15}
+          r="2.5" fill={color} opacity="0.5"
+          style={{ animation:`float ${1+i*0.3}s ease-in-out infinite ${i*0.2}s` }}/>
+      ))}
+      <text x={cx} y={cy+(thumb?8:25)} textAnchor="middle" fontSize={thumb?14:55}
+        fill={color} opacity="0.7" fontFamily="serif"
+        style={{ animation:"glow 2s ease-in-out infinite" }}>🚩</text>
+    </svg>
+  );
+
+  if (id === "durga") return (
+    <svg {...common} viewBox={vb}>
+      <defs>
+        <radialGradient id="dBg" cx="50%" cy="50%" r="55%">
+          <stop offset="0%" stopColor={color} stopOpacity="0.3"/>
+          <stop offset="100%" stopColor="#0A0A0F" stopOpacity="0"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx={cx} cy={cy} rx={thumb?24:200} ry={thumb?24:130} fill="url(#dBg)"/>
+      {/* Outer rotating yantra */}
+      {[0,30,60,90,120,150].map((a,i) => (
+        <line key={i} x1={cx} y1={cy}
+          x2={cx + Math.cos(a*Math.PI/180)*(thumb?20:100)}
+          y2={cy + Math.sin(a*Math.PI/180)*(thumb?20:100)}
+          stroke={color} strokeWidth={thumb?1.5:3} opacity="0.3" strokeLinecap="round"
+          style={{ transformOrigin:`${cx}px ${cy}px`, animation:`spinReverse 8s linear infinite` }}/>
+      ))}
+      {/* 10 arms */}
+      {!thumb && [0,36,72,108,144,180,216,252,288,324].map((a,i) => (
+        <line key={i}
+          x1={cx + Math.cos((a-90)*Math.PI/180)*20}
+          y1={cy + Math.sin((a-90)*Math.PI/180)*20}
+          x2={cx + Math.cos((a-90)*Math.PI/180)*80}
+          y2={cy + Math.sin((a-90)*Math.PI/180)*80}
+          stroke={color} strokeWidth="2" opacity="0.25" strokeLinecap="round"/>
+      ))}
+      {/* Chakra rings */}
+      <circle cx={cx} cy={cy} r={thumb?16:75} fill="none" stroke={color} strokeWidth={thumb?1:2} opacity="0.2"
+        style={{ animation:"spin 10s linear infinite" }} strokeDasharray={thumb?"4,4":"15,15"}/>
+      <circle cx={cx} cy={cy} r={thumb?10:45} fill="none" stroke={color} strokeWidth={thumb?1:2} opacity="0.3"
+        style={{ animation:"spinReverse 7s linear infinite" }} strokeDasharray={thumb?"3,3":"10,10"}/>
+      {/* Core */}
+      <circle cx={cx} cy={cy} r={thumb?5:25} fill={color} opacity="0.2"
+        style={{ animation:"pulse 2s ease-in-out infinite" }}/>
+      <text x={cx} y={cy+(thumb?6:18)} textAnchor="middle" fontSize={thumb?10:42}
+        fill={color} opacity="0.8" fontFamily="serif"
+        style={{ animation:"glow 2s ease-in-out infinite" }}>दुं</text>
+    </svg>
+  );
+
+  if (id === "lakshmi" || id === "kanakadhara") return (
+    <svg {...common} viewBox={vb}>
+      <defs>
+        <radialGradient id="lBg" cx="50%" cy="50%" r="55%">
+          <stop offset="0%" stopColor={color} stopOpacity="0.3"/>
+          <stop offset="100%" stopColor="#0A0A0F" stopOpacity="0"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx={cx} cy={cy} rx={thumb?24:200} ry={thumb?24:130} fill="url(#lBg)"/>
+      {/* Lotus - outer petals */}
+      {[0,45,90,135,180,225,270,315].map((a,i) => (
+        <ellipse key={i}
+          cx={cx + Math.cos((a-90)*Math.PI/180)*(thumb?13:58)}
+          cy={cy + Math.sin((a-90)*Math.PI/180)*(thumb?13:58)}
+          rx={thumb?4:16} ry={thumb?7:30}
+          fill={color} opacity="0.15"
+          transform={`rotate(${a}, ${cx + Math.cos((a-90)*Math.PI/180)*(thumb?13:58)}, ${cy + Math.sin((a-90)*Math.PI/180)*(thumb?13:58)})`}
+          style={{ animation:`bloom 0.8s ease-out ${i*0.1}s both, pulse ${3+i*0.2}s ease-in-out infinite ${i*0.2}s` }}/>
+      ))}
+      {/* Inner petals */}
+      {[22,67,112,157,202,247,292,337].map((a,i) => (
+        <ellipse key={i}
+          cx={cx + Math.cos((a-90)*Math.PI/180)*(thumb?8:35)}
+          cy={cy + Math.sin((a-90)*Math.PI/180)*(thumb?8:35)}
+          rx={thumb?3:11} ry={thumb?5:20}
+          fill={color} opacity="0.3"
+          transform={`rotate(${a}, ${cx + Math.cos((a-90)*Math.PI/180)*(thumb?8:35)}, ${cy + Math.sin((a-90)*Math.PI/180)*(thumb?8:35)})`}
+          style={{ animation:`pulse ${2.5+i*0.2}s ease-in-out infinite ${i*0.15}s` }}/>
+      ))}
+      {/* Falling coins/drops */}
+      {!thumb && [0,1,2,3,4,5,6].map(i => (
+        <circle key={i} cx={cx-90+i*30} cy={0}
+          r="4" fill={color} opacity="0.6"
+          style={{ animation:`rain ${2+i*0.4}s ease-in ${i*0.6}s infinite` }}/>
+      ))}
+      {/* Center */}
+      <circle cx={cx} cy={cy} r={thumb?5:22} fill={color} opacity="0.25"
+        style={{ animation:"pulse 2.5s ease-in-out infinite" }}/>
+      <text x={cx} y={cy+(thumb?6:18)} textAnchor="middle" fontSize={thumb?10:42}
+        fill={color} opacity="0.8" fontFamily="serif"
+        style={{ animation:"glow 2.5s ease-in-out infinite" }}>श्रीं</text>
+    </svg>
+  );
+
+  if (id === "matangi") return (
+    <svg {...common} viewBox={vb}>
+      <defs>
+        <radialGradient id="mBg" cx="50%" cy="50%" r="55%">
+          <stop offset="0%" stopColor={color} stopOpacity="0.3"/>
+          <stop offset="100%" stopColor="#0A0A0F" stopOpacity="0"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx={cx} cy={cy} rx={thumb?24:200} ry={thumb?24:130} fill="url(#mBg)"/>
+      {/* Parrot body */}
+      {!thumb && <ellipse cx={cx+20} cy={cy+10} rx="30" ry="45" fill={color} opacity="0.15"
+        style={{ animation:"float 3s ease-in-out infinite" }}/>}
+      {!thumb && <circle cx={cx+20} cy={cy-40} r="18" fill={color} opacity="0.18"
+        style={{ animation:"float 3s ease-in-out infinite" }}/>}
+      {/* Rotating leaf/sugarcane motif */}
+      {[0,60,120,180,240,300].map((a,i) => (
+        <path key={i}
+          d={`M${cx},${cy} Q${cx + Math.cos(a*Math.PI/180)*(thumb?10:45)},${cy + Math.sin(a*Math.PI/180)*(thumb?10:45)} ${cx + Math.cos(a*Math.PI/180)*(thumb?18:80)},${cy + Math.sin(a*Math.PI/180)*(thumb?18:80)}`}
+          stroke={color} strokeWidth={thumb?1.5:3} fill="none" opacity="0.35" strokeLinecap="round"
+          style={{ transformOrigin:`${cx}px ${cy}px`, animation:`spinReverse 12s linear infinite` }}/>
+      ))}
+      <circle cx={cx} cy={cy} r={thumb?6:28} fill={color} opacity="0.2"
+        style={{ animation:"pulse 3s ease-in-out infinite" }}/>
+      <text x={cx} y={cy+(thumb?6:18)} textAnchor="middle" fontSize={thumb?12:48}
+        fill={color} opacity="0.8" fontFamily="serif"
+        style={{ animation:"glow 3s ease-in-out infinite" }}>ह्रीं</text>
+      {/* Emerald sparkles */}
+      {!thumb && [0,1,2,3,4].map(i => (
+        <polygon key={i} points={`${cx-80+i*40},${cy-60} ${cx-77+i*40},${cy-54} ${cx-80+i*40},${cy-48} ${cx-83+i*40},${cy-54}`}
+          fill={color} opacity="0.4"
+          style={{ animation:`pulse ${1.5+i*0.4}s ease-in-out infinite ${i*0.3}s` }}/>
+      ))}
+    </svg>
+  );
+
+  if (id === "saravanabhava") return (
+    <svg {...common} viewBox={vb}>
+      <defs>
+        <radialGradient id="muBg" cx="50%" cy="50%" r="55%">
+          <stop offset="0%" stopColor={color} stopOpacity="0.3"/>
+          <stop offset="100%" stopColor="#0A0A0F" stopOpacity="0"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx={cx} cy={cy} rx={thumb?24:200} ry={thumb?24:130} fill="url(#muBg)"/>
+      {/* Vel / divine spear */}
+      {!thumb && <line x1={cx} y1={cy-100} x2={cx} y2={cy+90} stroke={color} strokeWidth="5" strokeLinecap="round" opacity="0.5"/>}
+      {!thumb && <polygon points={`${cx},${cy-110} ${cx-15},${cy-75} ${cx+15},${cy-75}`} fill={color} opacity="0.6"
+        style={{ animation:"glow 2s ease-in-out infinite" }}/>}
+      {/* Peacock eye rings */}
+      {[1,2,3].map(i => (
+        <circle key={i} cx={cx} cy={cy} r={(thumb?5:22)*i} fill="none"
+          stroke={color} strokeWidth={thumb?1:2} opacity={0.3/i}
+          strokeDasharray={thumb?"3,3":"12,12"}
+          style={{ animation:`spin ${6+i*2}s linear infinite` }}/>
+      ))}
+      {/* Peacock feather eyes */}
+      {!thumb && [0,51,102,153,204,255,306].map((a,i) => (
+        <ellipse key={i}
+          cx={cx + Math.cos((a-90)*Math.PI/180)*70}
+          cy={cy + Math.sin((a-90)*Math.PI/180)*70}
+          rx="8" ry="14" fill={color} opacity="0.2"
+          transform={`rotate(${a}, ${cx + Math.cos((a-90)*Math.PI/180)*70}, ${cy + Math.sin((a-90)*Math.PI/180)*70})`}
+          style={{ animation:`pulse ${2+i*0.2}s ease-in-out infinite ${i*0.15}s` }}/>
+      ))}
+      <text x={cx} y={cy+(thumb?6:18)} textAnchor="middle" fontSize={thumb?9:36}
+        fill={color} opacity="0.8" fontFamily="serif" letterSpacing="2"
+        style={{ animation:"glow 2s ease-in-out infinite" }}>ஷண்முக</text>
+    </svg>
+  );
+
+  if (id === "navagraha") return (
+    <svg {...common} viewBox={vb}>
+      <defs>
+        <radialGradient id="ngBg" cx="50%" cy="50%" r="55%">
+          <stop offset="0%" stopColor="#FFD700" stopOpacity="0.2"/>
+          <stop offset="100%" stopColor="#0A0A0F" stopOpacity="0"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx={cx} cy={cy} rx={thumb?24:200} ry={thumb?24:130} fill="url(#ngBg)"/>
+      {/* Central sun */}
+      <circle cx={cx} cy={cy} r={thumb?5:20} fill="#FFD700" opacity="0.7"
+        style={{ animation:"glow 2s ease-in-out infinite" }}/>
+      {/* 8 orbiting planets */}
+      {[
+        { color:"#FFD700", r:thumb?14:65, dur:4, size:thumb?2:7 },
+        { color:"#C0C0C0", r:thumb?11:50, dur:6, size:thumb?1.5:6 },
+        { color:"#4169E1", r:thumb?18:85, dur:8, size:thumb?1.5:6 },
+        { color:"#DC143C", r:thumb?8:38, dur:3, size:thumb?1.5:5 },
+        { color:"#8B4513", r:thumb?20:100, dur:11, size:thumb?1.5:7 },
+        { color:"#228B22", r:thumb?16:75, dur:7, size:thumb?1.5:5 },
+        { color:"#9400D3", r:thumb?13:58, dur:9, size:thumb?1.5:5 },
+        { color:"#FF4500", r:thumb?6:28, dur:5, size:thumb?1.5:5 },
+      ].map((p, i) => (
+        <circle key={i} cx={cx + p.r} cy={cy} r={p.size} fill={p.color} opacity="0.85"
+          style={{ transformOrigin:`${cx}px ${cy}px`, animation:`spin ${p.dur}s linear infinite` }}/>
+      ))}
+    </svg>
+  );
+
+  // Default fallback
+  return (
+    <svg {...common} viewBox={vb}>
+      <circle cx={cx} cy={cy} r={thumb?20:100} fill={color} opacity="0.1"
+        style={{ animation:"pulse 3s ease-in-out infinite" }}/>
+      <text x={cx} y={cy+8} textAnchor="middle" fontSize={thumb?20:80}
+        style={{ animation:"glow 3s ease-in-out infinite" }}>🕉️</text>
+    </svg>
+  );
+}
+
 function PrayerView({ prayer, onBack, japaCount, setJapaCount }) {
   const topRef = useRef(null);
   const count = japaCount;
   const setCount = setJapaCount;
-  const [imgError, setImgError] = useState(false);
   useEffect(() => {
     topRef.current?.scrollIntoView({ behavior: "auto" });
-    setImgError(false);
   }, [prayer.id]);
 
   return (
@@ -1004,42 +1354,26 @@ function PrayerView({ prayer, onBack, japaCount, setJapaCount }) {
         </div>
       </div>
 
-      {/* Deity Image Hero */}
-      {prayer.image && !imgError && (
-        <div style={{ position: "relative", width: "100%", height: 260, overflow: "hidden" }}>
-          <img
-            src={prayer.image}
-            alt={prayer.deity}
-            onError={() => setImgError(true)}
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              objectPosition: "top center",
-              display: "block",
-            }}
-          />
-          <div style={{
-            position: "absolute", inset: 0,
-            background: `linear-gradient(to bottom, transparent 40%, #0A0A0F 100%)`,
-          }} />
-          <div style={{
-            position: "absolute", inset: 0,
-            background: `linear-gradient(135deg, ${prayer.color}33, transparent 60%)`,
-          }} />
-          <div style={{
-            position: "absolute", bottom: 16, left: 24,
-            fontFamily: "'EB Garamond', Georgia, serif",
-            fontSize: 13,
-            color: `${prayer.color}CC`,
-            letterSpacing: "0.1em",
-            textTransform: "uppercase",
-            fontStyle: "italic",
-          }}>
-            {prayer.deity}
-          </div>
+      {/* Deity Animation Hero */}
+      <div style={{ position: "relative", width: "100%", height: 260, overflow: "hidden" }}>
+        <DeityAnimation id={prayer.id} color={prayer.color} />
+        <div style={{
+          position: "absolute", inset: 0,
+          background: `linear-gradient(to bottom, transparent 50%, #0A0A0F 100%)`,
+          pointerEvents: "none",
+        }} />
+        <div style={{
+          position: "absolute", bottom: 16, left: 24,
+          fontFamily: "'EB Garamond', Georgia, serif",
+          fontSize: 13,
+          color: `${prayer.color}CC`,
+          letterSpacing: "0.1em",
+          textTransform: "uppercase",
+          fontStyle: "italic",
+        }}>
+          {prayer.deity}
         </div>
-      )}
+      </div>
 
       {/* Note */}
       {prayer.note && (
@@ -1464,30 +1798,8 @@ function DailySadhanaBook() {
               e.currentTarget.style.borderColor = `${prayer.color}1A`;
             }}
           >
-            <span
-              style={{
-                width: 48,
-                height: 48,
-                borderRadius: 8,
-                flexShrink: 0,
-                overflow: "hidden",
-                background: `${prayer.color}15`,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: 26,
-                position: "relative",
-              }}
-            >
-              {prayer.image ? (
-                <img
-                  src={prayer.image}
-                  alt={prayer.deity}
-                  onError={(e) => { e.target.style.display = "none"; e.target.nextSibling.style.display = "flex"; }}
-                  style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }}
-                />
-              ) : null}
-              <span style={{ display: prayer.image ? "none" : "flex", position: "absolute", inset: 0, alignItems: "center", justifyContent: "center" }}>{prayer.icon}</span>
+            <span style={{ width: 48, height: 48, borderRadius: 8, flexShrink: 0, overflow: "hidden", background: `${prayer.color}15`, display: "block" }}>
+              <DeityAnimation id={prayer.id} color={prayer.color} thumb={true} />
             </span>
             <div style={{ flex: 1, minWidth: 0 }}>
               <div
