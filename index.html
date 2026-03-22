@@ -919,12 +919,12 @@ const prayers = [
   },
 ];
 
-function PrayerView({ prayer, onBack }) {
+function PrayerView({ prayer, onBack, japaCount, setJapaCount }) {
   const topRef = useRef(null);
-  const [count, setCount] = useState(0);
+  const count = japaCount;
+  const setCount = setJapaCount;
   useEffect(() => {
     topRef.current?.scrollIntoView({ behavior: "auto" });
-    setCount(0);
   }, [prayer.id]);
 
   return (
@@ -1167,6 +1167,15 @@ function DailySadhanaBook() {
   const [unlocked, setUnlocked] = useState(false);
   const [pwd, setPwd] = useState("");
   const [pwdError, setPwdError] = useState(false);
+  const [completed, setCompleted] = useState({});
+  const [japaCounts, setJapaCounts] = useState({});
+
+  const toggleCompleted = (e, prayer) => {
+    e.stopPropagation();
+    const max = prayer.counterMax ?? 9;
+    if (prayer.hasCounter && (japaCounts[prayer.id] ?? 0) < max) return;
+    setCompleted((prev) => ({ ...prev, [prayer.id]: !prev[prayer.id] }));
+  };
 
   const handleUnlock = () => {
     if (pwd === "VISHNU") {
@@ -1295,7 +1304,7 @@ function DailySadhanaBook() {
 
   if (selected) {
     const prayer = prayers.find((p) => p.id === selected);
-    return <PrayerView prayer={prayer} onBack={() => setSelected(null)} />;
+    return <PrayerView prayer={prayer} onBack={() => setSelected(null)} japaCount={japaCounts[prayer.id] ?? 0} setJapaCount={(fn) => setJapaCounts((prev) => ({ ...prev, [prayer.id]: typeof fn === "function" ? fn(prev[prayer.id] ?? 0) : fn }))} />;
   }
 
   return (
@@ -1443,6 +1452,35 @@ function DailySadhanaBook() {
               </div>
             </div>
             <span style={{ color: "#555", fontSize: 18 }}>→</span>
+            {(() => {
+              const max = prayer.counterMax ?? 9;
+              const japaReady = !prayer.hasCounter || (japaCounts[prayer.id] ?? 0) >= max;
+              const isDone = !!completed[prayer.id];
+              return (
+                <span
+                  onClick={(e) => toggleCompleted(e, prayer)}
+                  title={!japaReady ? `Complete japa (${japaCounts[prayer.id] ?? 0}/${max}) first` : isDone ? "Mark incomplete" : "Mark complete"}
+                  style={{
+                    width: 26,
+                    height: 26,
+                    borderRadius: 6,
+                    border: `2px solid ${isDone ? prayer.color : japaReady ? "#555" : "#333"}`,
+                    background: isDone ? prayer.color : "transparent",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexShrink: 0,
+                    cursor: japaReady ? "pointer" : "not-allowed",
+                    opacity: japaReady ? 1 : 0.4,
+                    transition: "all 0.2s ease",
+                    fontSize: 14,
+                    color: "#0A0A0F",
+                  }}
+                >
+                  {isDone ? "✓" : ""}
+                </span>
+              );
+            })()}
           </button>
         ))}
       </div>
