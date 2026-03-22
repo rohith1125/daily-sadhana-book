@@ -1279,7 +1279,7 @@ function DeityAnimation({ id, color, thumb }) {
   );
 }
 
-function PrayerView({ prayer, onBack, japaCount, setJapaCount }) {
+function PrayerView({ prayer, onBack, japaCount, setJapaCount, darkMode, theme, toggleDark }) {
   const topRef = useRef(null);
   const count = japaCount;
   const setCount = setJapaCount;
@@ -1288,7 +1288,7 @@ function PrayerView({ prayer, onBack, japaCount, setJapaCount }) {
   }, [prayer.id]);
 
   return (
-    <div style={{ minHeight: "100vh", background: `linear-gradient(180deg, ${prayer.color}22 0%, #0A0A0F 400px)` }}>
+    <div style={{ minHeight: "100vh", background: `linear-gradient(180deg, ${prayer.color}22 0%, ${theme.bg} 400px)` }}>
       <div ref={topRef} />
 
       {/* Header */}
@@ -1304,22 +1304,34 @@ function PrayerView({ prayer, onBack, japaCount, setJapaCount }) {
           WebkitBackdropFilter: "blur(20px)",
         }}
       >
-        <button
-          onClick={onBack}
-          style={{
-            background: "none",
-            border: "none",
-            color: "#888",
-            fontSize: 14,
-            cursor: "pointer",
-            padding: 0,
-            marginBottom: 8,
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+          <button
+            onClick={onBack}
+            style={{
+              background: "none",
+              border: "none",
+              color: theme.textSecondary,
+              fontSize: 14,
+              cursor: "pointer",
+              padding: 0,
+              marginBottom: 8,
+              fontFamily: "'EB Garamond', Georgia, serif",
+              letterSpacing: "0.05em",
+            }}
+          >
+            ← Back to all prayers
+          </button>
+          <button onClick={toggleDark} style={{
+            background: "none", border: `1px solid ${theme.border}`,
+            borderRadius: 20, padding: "6px 14px",
+            cursor: "pointer", fontSize: 16,
+            color: theme.textSecondary,
             fontFamily: "'EB Garamond', Georgia, serif",
-            letterSpacing: "0.05em",
-          }}
-        >
-          ← Back to all prayers
-        </button>
+            transition: "all 0.2s ease",
+          }}>
+            {darkMode ? "☀️" : "🌙"}
+          </button>
+        </div>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <span style={{ fontSize: 28 }}>{prayer.icon}</span>
           <div>
@@ -1328,7 +1340,7 @@ function PrayerView({ prayer, onBack, japaCount, setJapaCount }) {
                 margin: 0,
                 fontFamily: "'EB Garamond', Georgia, serif",
                 fontSize: 22,
-                color: "#F5F0E8",
+                color: theme.textPrimary,
                 fontWeight: 500,
               }}
             >
@@ -1339,7 +1351,7 @@ function PrayerView({ prayer, onBack, japaCount, setJapaCount }) {
                 style={{
                   margin: "4px 0 0",
                   fontSize: 12,
-                  color: "#999",
+                  color: theme.textSecondary,
                   fontFamily: "'EB Garamond', Georgia, serif",
                   fontStyle: "italic",
                 }}
@@ -1356,7 +1368,7 @@ function PrayerView({ prayer, onBack, japaCount, setJapaCount }) {
         <DeityAnimation id={prayer.id} color={prayer.color} />
         <div style={{
           position: "absolute", inset: 0,
-          background: `linear-gradient(to bottom, transparent 50%, #0A0A0F 100%)`,
+          background: `linear-gradient(to bottom, transparent 50%, ${theme.bg} 100%)`,
           pointerEvents: "none",
         }} />
         <div style={{
@@ -1382,7 +1394,7 @@ function PrayerView({ prayer, onBack, japaCount, setJapaCount }) {
             borderLeft: `3px solid ${prayer.color}66`,
             borderRadius: 4,
             fontSize: 13,
-            color: "#BBB",
+            color: theme.noteText,
             fontFamily: "'EB Garamond', Georgia, serif",
             lineHeight: 1.6,
           }}
@@ -1479,7 +1491,7 @@ function PrayerView({ prayer, onBack, japaCount, setJapaCount }) {
               background: `${prayer.color}15`,
               border: `1px solid ${prayer.color}33`,
               borderRadius: 6,
-              color: "#AAA",
+              color: theme.sectionHeadColor,
               fontSize: 12,
               cursor: "pointer",
               fontFamily: "'EB Garamond', Georgia, serif",
@@ -1507,8 +1519,12 @@ function PrayerView({ prayer, onBack, japaCount, setJapaCount }) {
                 paddingBottom: 6,
                 borderBottom: `1px solid ${prayer.color}22`,
                 letterSpacing: "0.03em",
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
               }}
             >
+              <span style={{ width: 7, height: 7, borderRadius: "50%", background: prayer.color, display: "inline-block", flexShrink: 0, boxShadow: `0 0 6px ${prayer.color}88` }} />
               {section.heading}
             </h2>
             <div
@@ -1550,6 +1566,26 @@ function DailySadhanaBook() {
   const [pwdError, setPwdError] = useState(false);
   const [completed, setCompleted] = useState({});
   const [japaCounts, setJapaCounts] = useState({});
+  const [darkMode, setDarkMode] = useState(true);
+  const toggleDark = () => setDarkMode(d => !d);
+
+  const theme = darkMode ? {
+    bg: "#0A0A0F", card: "#151520", textPrimary: "#F5F0E8",
+    textSecondary: "#999", textMuted: "#777", border: "#2a2a35",
+    heroGrad: "radial-gradient(ellipse at 50% 0%, #1a1520 0%, #0A0A0F 70%)",
+    inputBg: "#151520", searchBorder: "#2a2a35", searchColor: "#E8E0D0",
+    footerColor: "#444", noteBg: "11", noteText: "#BBB",
+    sectionHeadColor: "#888", lineColor: "#D4C5A9",
+  } : {
+    bg: "#FDF6EC", card: "#FFFAF3", textPrimary: "#1a0a00",
+    textSecondary: "#7a5c3a", textMuted: "#9a7a5a", border: "#e8d5b0",
+    heroGrad: "radial-gradient(ellipse at 50% 0%, #f5e6cc 0%, #FDF6EC 70%)",
+    inputBg: "#FFFAF3", searchBorder: "#e8d5b0", searchColor: "#3a2010",
+    footerColor: "#bba080", noteBg: "22", noteText: "#7a5030",
+    sectionHeadColor: "#c8a060", lineColor: "#5a3a1a",
+  };
+
+  const completedCount = Object.values(completed).filter(Boolean).length;
 
   const toggleCompleted = (e, prayer) => {
     e.stopPropagation();
@@ -1685,14 +1721,14 @@ function DailySadhanaBook() {
 
   if (selected) {
     const prayer = prayers.find((p) => p.id === selected);
-    return <PrayerView prayer={prayer} onBack={() => setSelected(null)} japaCount={japaCounts[prayer.id] ?? 0} setJapaCount={(fn) => setJapaCounts((prev) => ({ ...prev, [prayer.id]: typeof fn === "function" ? fn(prev[prayer.id] ?? 0) : fn }))} />;
+    return <PrayerView prayer={prayer} onBack={() => setSelected(null)} japaCount={japaCounts[prayer.id] ?? 0} setJapaCount={(fn) => setJapaCounts((prev) => ({ ...prev, [prayer.id]: typeof fn === "function" ? fn(prev[prayer.id] ?? 0) : fn }))} darkMode={darkMode} theme={theme} toggleDark={toggleDark} />;
   }
 
   return (
     <div
       style={{
         minHeight: "100vh",
-        background: "#0A0A0F",
+        background: theme.bg,
         fontFamily: "'EB Garamond', Georgia, serif",
       }}
     >
@@ -1706,8 +1742,8 @@ function DailySadhanaBook() {
         style={{
           padding: "40px 24px 24px",
           textAlign: "center",
-          background:
-            "radial-gradient(ellipse at 50% 0%, #1a1520 0%, #0A0A0F 70%)",
+          background: theme.heroGrad,
+          position: "relative",
         }}
       >
         <div
@@ -1723,7 +1759,7 @@ function DailySadhanaBook() {
           style={{
             margin: 0,
             fontSize: 28,
-            color: "#F5F0E8",
+            color: theme.textPrimary,
             fontWeight: 500,
             letterSpacing: "0.04em",
           }}
@@ -1734,12 +1770,34 @@ function DailySadhanaBook() {
           style={{
             margin: "6px 0 0",
             fontSize: 14,
-            color: "#777",
+            color: theme.textMuted,
             fontStyle: "italic",
           }}
         >
           A complete chanting guide for daily practice
         </p>
+        <button onClick={toggleDark} style={{
+          position: "absolute", top: 20, right: 24,
+          background: "none", border: `1px solid ${theme.border}`,
+          borderRadius: 20, padding: "6px 14px",
+          cursor: "pointer", fontSize: 16,
+          color: theme.textSecondary,
+          fontFamily: "'EB Garamond', Georgia, serif",
+          transition: "all 0.2s ease",
+        }}>
+          {darkMode ? "☀️" : "🌙"}
+        </button>
+      </div>
+
+      {/* Progress Bar */}
+      <div style={{ padding: "0 24px 8px" }}>
+        <div style={{ display:"flex", justifyContent:"space-between", fontSize:12, color: theme.textMuted, marginBottom:4, fontFamily:"'EB Garamond', Georgia, serif" }}>
+          <span>Today's Progress</span>
+          <span>{completedCount} / {prayers.length}</span>
+        </div>
+        <div style={{ height:3, background: theme.border, borderRadius:2 }}>
+          <div style={{ height:"100%", width:`${(completedCount/prayers.length)*100}%`, background: "#DAA520", borderRadius:2, transition:"width 0.4s ease" }}/>
+        </div>
       </div>
 
       {/* Search */}
@@ -1753,10 +1811,10 @@ function DailySadhanaBook() {
             width: "100%",
             boxSizing: "border-box",
             padding: "10px 14px",
-            background: "#151520",
-            border: "1px solid #2a2a35",
+            background: theme.inputBg,
+            border: `1px solid ${theme.searchBorder}`,
             borderRadius: 8,
-            color: "#E8E0D0",
+            color: theme.searchColor,
             fontSize: 15,
             fontFamily: "'EB Garamond', Georgia, serif",
             outline: "none",
@@ -1778,7 +1836,8 @@ function DailySadhanaBook() {
               padding: "16px",
               marginBottom: 8,
               background: `linear-gradient(135deg, ${prayer.color}0A, transparent)`,
-              border: `1px solid ${prayer.color}1A`,
+              border: `1px solid ${completed[prayer.id] ? "#4CAF50" : prayer.color+"1A"}`,
+              opacity: completed[prayer.id] ? 0.75 : 1,
               borderRadius: 10,
               cursor: "pointer",
               textAlign: "left",
@@ -1803,7 +1862,7 @@ function DailySadhanaBook() {
                 style={{
                   fontSize: 16,
                   fontFamily: "'EB Garamond', Georgia, serif",
-                  color: "#F5F0E8",
+                  color: theme.textPrimary,
                   fontWeight: 500,
                   marginBottom: 2,
                 }}
@@ -1813,7 +1872,7 @@ function DailySadhanaBook() {
               <div
                 style={{
                   fontSize: 12,
-                  color: "#777",
+                  color: theme.textMuted,
                   fontFamily: "'EB Garamond', Georgia, serif",
                 }}
               >
@@ -1843,7 +1902,7 @@ function DailySadhanaBook() {
                     opacity: japaReady ? 1 : 0.4,
                     transition: "all 0.2s ease",
                     fontSize: 14,
-                    color: "#0A0A0F",
+                    color: theme.bg,
                   }}
                 >
                   {isDone ? "✓" : ""}
@@ -1860,7 +1919,7 @@ function DailySadhanaBook() {
           textAlign: "center",
           padding: "0 24px 32px",
           fontSize: 12,
-          color: "#444",
+          color: theme.footerColor,
           fontStyle: "italic",
         }}
       >
