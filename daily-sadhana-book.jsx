@@ -1,0 +1,1411 @@
+import { useState, useEffect, useRef } from "react";
+
+const prayers = [
+  {
+    id: "ganapati",
+    title: "Śrī Gaṇapati Atharvashīrṣa",
+    deity: "Shri Ganesha",
+    icon: "🕉️",
+    color: "#C45B28",
+    subtitle: "Slow-Chant Version — 41-Day Sādhana Practice",
+    note: "Read each segment slowly, with a slight pause. Do not rush. Do not worry about perfect accents — only consistency matters. This full slow chant takes 7–9 minutes, perfect for your daily sādhana.",
+    sections: [
+      {
+        heading: "Opening Shānti Verse (Slow)",
+        lines: [
+          "Om bhad-ram",
+          "kar-ne-bhih",
+          "shru-nu-yaa-ma",
+          "de-vaah ॥",
+          "",
+          "bhad-ram",
+          "pa-shye-ma",
+          "ak-sha-bhir",
+          "ya-ja-traah ॥",
+          "",
+          "sthi-rai-r-an-gaih",
+          "tush-tu-vaam-sas",
+          "ta-nu-bhih ॥",
+          "",
+          "vya-she-ma",
+          "deva-hi-tam",
+          "ya-daa-yuh ॥",
+        ],
+      },
+      {
+        heading: "1 — Salutation (Slow)",
+        lines: [
+          "Om na-mas-te",
+          "Ga-na-pa-ta-ye ॥",
+          "",
+          "tvam e-va",
+          "prat-yak-sham",
+          "tat-tvam a-si ॥",
+          "",
+          "tvam e-va",
+          "ke-va-lam",
+          "kar-taa a-si ॥",
+          "",
+          "tvam e-va",
+          "ke-va-lam",
+          "dhar-taa a-si ॥",
+          "",
+          "tvam e-va",
+          "ke-va-lam",
+          "har-taa a-si ॥",
+          "",
+          "tvam e-va",
+          "sar-vam",
+          "khalv i-dam",
+          "brah-maa a-si ॥",
+          "",
+          "tvam saak-shaad",
+          "aat-maa a-si",
+          "ni-tyam ॥",
+        ],
+      },
+      {
+        heading: "2 — Truth Declaration",
+        lines: [
+          "Ri-tam",
+          "vach-mi ॥",
+          "",
+          "Sat-yam",
+          "vach-mi ॥",
+        ],
+      },
+      {
+        heading: "3 — Protection Prayer (Slow)",
+        lines: [
+          "A-va",
+          "tvam",
+          "maam ॥",
+          "",
+          "A-va",
+          "vak-taa-ram ॥",
+          "",
+          "A-va",
+          "shro-taa-ram ॥",
+          "",
+          "A-va",
+          "daa-taa-ram ॥",
+          "",
+          "A-va",
+          "dhaa-taa-ram ॥",
+          "",
+          "A-va",
+          "a-noo-chaa-nam",
+          "A-va",
+          "shi-shyam ॥",
+          "",
+          "A-va",
+          "pu-ru-sham ॥",
+          "A-va",
+          "paa-shum ॥",
+          "A-va",
+          "dhru-vam ॥",
+          "A-va",
+          "nak-sha-tram ॥",
+          "",
+          "A-va",
+          "mit-ram ॥",
+          "A-va",
+          "va-ru-nam ॥",
+          "A-va",
+          "bri-has-pa-tim ॥",
+          "A-va",
+          "Ind-ram ॥",
+          "A-va",
+          "Ag-nim ॥",
+          "A-va",
+          "Su-ryam ॥",
+          "A-va",
+          "Chan-dra-maah ॥",
+          "",
+          "A-va",
+          "brah-ma",
+          "braah-ma-no'",
+          "a-va",
+          "ta-da-rsham ॥",
+        ],
+      },
+      {
+        heading: "4 — Understanding Gaṇapati (Slow)",
+        lines: [
+          "Tvam",
+          "moo-laa-dhaar",
+          "sthi-to'-si",
+          "ni-tyam ॥",
+          "",
+          "Tvam",
+          "Brah-maa ॥",
+          "",
+          "Tvam",
+          "Vish-nuh ॥",
+          "",
+          "Tvam",
+          "Rud-rah ॥",
+          "",
+          "Tvam",
+          "Ind-rah ॥",
+          "",
+          "Tvam",
+          "Ag-nih ॥",
+          "",
+          "Tvam",
+          "Vaa-yuh ॥",
+          "",
+          "Tvam",
+          "Sur-yah ॥",
+          "",
+          "Tvam",
+          "Chan-dra-maah ॥",
+          "",
+          "Tvam",
+          "Brah-maa",
+          "Bhoor",
+          "Bhu-vah",
+          "Su-vah ॥",
+        ],
+      },
+      {
+        heading: "5 — The \"Gaṃ\" Bīja (Slow)",
+        lines: [
+          "Ga-naa-dim",
+          "poor-vam",
+          "uch-chaa-rya ॥",
+          "",
+          "Var-naa-dim",
+          "tad-a-nan-ta-ram ॥",
+          "",
+          "A-nus-vaara",
+          "pa-ra-ta-rah ॥",
+          "",
+          "Ardhen-du",
+          "la-si-tam ॥",
+          "",
+          "Taa-re-na",
+          "riddh-am ॥",
+          "",
+          "E-tat",
+          "ta-va",
+          "ma-nas",
+          "sva-roo-pam ॥",
+          "",
+          "Gaṃ ॥",
+          "",
+          "(Chant \"Gaṃ\" slowly once.)",
+        ],
+      },
+      {
+        heading: "6 — Ganesha Visualization (Slow)",
+        lines: [
+          "E-ka-dan-tam",
+          "cha-tur-has-tam ॥",
+          "",
+          "Paa-sham",
+          "an-ku-sha",
+          "dhaa-ri-nam ॥",
+          "",
+          "Rad-am",
+          "cha",
+          "va-ra-dam",
+          "has-tair",
+          "bibh-raa-nam ॥",
+          "",
+          "Moo-sha-ka",
+          "dhva-jam ॥",
+          "",
+          "Rak-tam",
+          "lam-bo-da-ram ॥",
+          "",
+          "Shoor-pa",
+          "kar-na-kam ॥",
+          "",
+          "Rak-ta",
+          "vaa-sa-sam ॥",
+          "",
+          "Rak-ta",
+          "gan-dhaa",
+          "nu-lip-taa-ngam ॥",
+          "",
+          "Rak-ta",
+          "push-paiḥ",
+          "su-poo-ji-tam ॥",
+          "",
+          "Bhak-taa-nu-kam-pi-nam",
+          "de-vam ॥",
+          "",
+          "Ja-gat",
+          "kaa-ra-nam",
+          "a-chyu-tam ॥",
+        ],
+      },
+      {
+        heading: "7 — Merit of the Chant (Slow)",
+        lines: [
+          "E-vam",
+          "dhyaa-ya-ti",
+          "yo",
+          "ni-tyam ॥",
+          "",
+          "Sa",
+          "yo-gee",
+          "yo-gi-naam",
+          "va-rah ॥",
+        ],
+      },
+      {
+        heading: "8 — Final Salutations (Slow)",
+        lines: [
+          "Na-mo",
+          "vraa-ta-pa-ta-ye ॥",
+          "",
+          "Na-mo",
+          "Ga-na-pa-ta-ye ॥",
+          "",
+          "Na-mah",
+          "pra-ma-tha-pa-ta-ye ॥",
+          "",
+          "Na-mas-tu",
+          "Lam-bo-da-raa-ya ॥",
+          "",
+          "E-ka-dan-ta-ya ॥",
+          "",
+          "Vigh-na-naa-shi-ne ॥",
+          "",
+          "Shi-va-su-taa-ya ॥",
+          "",
+          "Shri",
+          "Va-ra-da",
+          "moor-ta-ye",
+          "na-mah ॥",
+        ],
+      },
+      {
+        heading: "Shānti",
+        lines: [
+          "Om shaan-tih",
+          "shaan-tih",
+          "shaan-tih ॥",
+        ],
+      },
+    ],
+  },
+  {
+    id: "saraswati",
+    title: "Sarasvatī Namastubhyam",
+    deity: "Devi Saraswati",
+    icon: "📿",
+    color: "#E8E8E8",
+    sections: [
+      {
+        heading: "Sarasvatī Vandanā",
+        lines: [
+          "Sarasvatī Namastubhyaṃ Varade Kāmarūpiṇi",
+          "Vidyārambhaṃ Kariṣyāmi Siddhirbhavatu Me Sadā",
+        ],
+      },
+      {
+        heading: "Sarasvatī Dhyāna Śloka",
+        lines: [
+          "Padma Patra Viśālākṣi Padma Kesara Varṇini",
+          "Nityaṃ Padmālayāṃ Devī Sā Māṃ Pātu Sarasvatī",
+        ],
+      },
+    ],
+  },
+  {
+    id: "chalisa",
+    title: "Hanumān Chālīsā",
+    deity: "Shri Hanuman",
+    icon: "🔱",
+    color: "#E85D3A",
+    sections: [
+      {
+        heading: "Dohā",
+        lines: [
+          "Śrī Guru Charaṇa Saroja Raja, Nija Manu Mukura Sudhāri",
+          "Baranaũ Raghubara Bimala Jasu, Jo Dāyaku Phala Chāri",
+          "",
+          "Buddhihīna Tanu Jānike, Sumirau Pavana Kumāra",
+          "Bala Buddhi Vidyā Dehu Mohi, Harahu Kaleśa Vikāra",
+        ],
+      },
+      {
+        heading: "Chaupāī (1–10)",
+        lines: [
+          "1. Jaya Hanumāna Jñāna Guṇa Sāgara · Jaya Kapīśa Tihũ Loka Ujāgara",
+          "2. Rāma Dūta Atulita Bala Dhāmā · Añjanī Putra Pavanasuta Nāmā",
+          "3. Mahābīra Bikrama Bajaraṅgī · Kumati Nivāra Sumati Ke Saṅgī",
+          "4. Kañchana Baraṇa Birāja Subesā · Kānana Kuṇḍala Kuñchita Kesā",
+          "5. Hātha Vajra Au Dhvajā Birāje · Kāndhe Mūñja Janeū Sāje",
+          "6. Śaṅkara Suvana Kesarī Nandana · Teja Pratāpa Mahā Jaga Bandana",
+          "7. Vidyāvāna Guṇī Ati Chātura · Rāma Kāja Karibe Ko Ātura",
+          "8. Prabhu Charitra Sunibe Ko Rasiyā · Rāma Lakhana Sītā Mana Basiyā",
+          "9. Sūkṣma Rūpa Dhari Siyahi Dikhāvā · Bikaṭa Rūpa Dhari Laṅka Jarāvā",
+          "10. Bhīma Rūpa Dhari Asura Sañhāre · Rāmachandra Ke Kāja Savāre",
+        ],
+      },
+      {
+        heading: "Chaupāī (11–20)",
+        lines: [
+          "11. Lāya Sajīvana Lakhana Jiyāye · Śrī Raghubīra Haraṣi Ura Lāye",
+          "12. Raghupati Kīnhī Bahuta Baḍāī · Tuma Mama Priya Bharatahi Sama Bhāī",
+          "13. Sahasa Badana Tumharo Yaśa Gāve · Asa Kahi Śrīpati Kaṇṭha Lagāve",
+          "14. Sanakādika Brahmādi Munīśā · Nārada Śārada Sahita Ahīśā",
+          "15. Yama Kubera Digapāla Jahã Te · Kavi Kovida Kahi Sake Kahã Te",
+          "16. Tuma Upakāra Sugrīvahi Kīnhā · Rāma Milāya Rājapada Dīnhā",
+          "17. Tumharo Mantra Vibhīṣaṇa Mānā · Laṅkeśvara Bhaye Saba Jaga Jānā",
+          "18. Yuga Sahasra Yojana Para Bhānū · Līlyo Tāhi Madhura Phala Jānū",
+          "19. Prabhu Mudrikā Meli Mukha Māhī · Jaladhi Lāṅghi Gaye Acharaja Nāhī",
+          "20. Durgama Kāja Jagata Ke Jete · Sugama Anugraha Tumhare Tete",
+        ],
+      },
+      {
+        heading: "Chaupāī (21–30)",
+        lines: [
+          "21. Rāma Duāre Tuma Rakhavāre · Hota Na Ājñā Binu Paisāre",
+          "22. Saba Sukha Lahẽ Tumhārī Śaranā · Tuma Rakṣaka Kāhū Ko Ḍaranā",
+          "23. Āpana Teja Samhāro Āpei · Tīno Loka Hāṅka Te Kāṅpei",
+          "24. Bhūta Piśācha Nikaṭa Nahī Āvai · Mahābīra Jaba Nāma Sunāvai",
+          "25. Nāse Roga Hare Saba Pīrā · Japata Nirantara Hanumata Bīrā",
+          "26. Saṅkaṭa Se Hanumāna Chhurāvai · Mana Krama Bachana Dhyāna Jo Lāvai",
+          "27. Saba Para Rāma Tapassvī Rājā · Tina Ke Kāja Sakala Tuma Sājā",
+          "28. Aura Manoratha Jo Koī Lāve · Soī Amita Jīvana Phala Pāve",
+          "29. Chārõ Yuga Paratāpa Tumhārā · Hai Parasiddha Jagata Ujiyārā",
+          "30. Sādhu Santa Ke Tuma Rakhavāre · Asura Nikandana Rāma Dulāre",
+        ],
+      },
+      {
+        heading: "Chaupāī (31–40)",
+        lines: [
+          "31. Aṣṭa Siddhi Nau Nidhi Ke Dātā · Asa Bara Dīnha Jānakī Mātā",
+          "32. Rāma Rasāyana Tumhare Pāsā · Sadā Raho Raghupati Ke Dāsā",
+          "33. Tumhare Bhajana Rāma Ko Pāve · Janama Janama Ke Dukha Bisarāve",
+          "34. Anta Kāla Raghubara Pura Jāī · Jahã Janma Hari Bhakta Kahāī",
+          "35. Aura Devatā Chitta Na Dharaī · Hanumata Sei Sarba Sukha Karaī",
+          "36. Saṅkaṭa Kaṭei Miṭei Saba Pīrā · Jo Sumire Hanumata Balabīrā",
+          "37. Jai Jai Jai Hanumāna Gosāīñ · Kṛpā Karahu Guru Deva Kī Nāīñ",
+          "38. Jo Sata Bāra Pāṭha Kara Koī · Chhūṭahi Bandī Mahā Sukha Hoī",
+          "39. Jo Yaha Paṛhe Hanumāna Chālīsā · Hoya Siddhi Sākhī Gaurīsā",
+          "40. Tulasīdāsa Sadā Hari Cherā · Kīje Nātha Hṛdaya Mahã Ḍerā",
+        ],
+      },
+      {
+        heading: "Dohā (Closing)",
+        lines: [
+          "Pavana Tanaya Saṅkaṭa Haraṇa, Maṅgala Mūrati Rūpa",
+          "Rāma Lakhana Sītā Sahita, Hṛdaya Basahu Sura Bhūpa",
+          "",
+          "Siyāvara Rāmachandra Pada Jaya Śaraṇam",
+        ],
+      },
+    ],
+  },
+  {
+    id: "karyasiddhi",
+    title: "Kārya Siddhi Hanumān Mantra",
+    deity: "Shri Hanuman",
+    icon: "⚡",
+    color: "#E85D3A",
+    subtitle: "From Vālmīki Rāmāyaṇa, Sundara Kāṇḍa — Spoken by Mātā Sītā",
+    note: "Chant 9 times daily for 16 days. Also known as the Dallas/Frisco Karya Siddhi Temple mantra.",
+    sections: [
+      {
+        heading: "Mantra 1",
+        lines: [
+          "Tvamasmin Kāryaniryōge Pramāṇaṃ Harisattama",
+          "Hanumān Yatnamāsthāya Duḥkha Kṣayakarō Bhava",
+        ],
+      },
+      {
+        heading: "Mantra 2",
+        lines: [
+          "Tvamasmin Kāryaniryōge Pramāṇaṃ Harisattama",
+          "Rāghavastvatsamārambhāt Mayi Yatnaparō Bhavet",
+        ],
+      },
+      {
+        heading: "Meaning",
+        lines: [
+          "\"O Hanuman, best among monkeys — you are the authority",
+          "in accomplishing this task. Please exert your effort",
+          "and become the destroyer of my sorrows.\"",
+          "— Mātā Sītā to Hanumān, Sundara Kāṇḍa 5.39.4",
+        ],
+      },
+    ],
+  },
+  {
+    id: "surya",
+    title: "Sūrya Arghya — Dvādaśa Nāma",
+    deity: "Surya Deva",
+    icon: "☀️",
+    color: "#D4A017",
+    subtitle: "12 Names of Sūrya for offering water at sunrise",
+    sections: [
+      {
+        heading: "Dvādaśa Sūrya Namaskāra",
+        lines: [
+          "Om Mitrāya Namaḥ",
+          "Om Ravaye Namaḥ",
+          "Om Sūryāya Namaḥ",
+          "Om Bhānave Namaḥ",
+          "Om Khagāya Namaḥ",
+          "Om Pūṣṇe Namaḥ",
+          "Om Hiraṇyagarbhāya Namaḥ",
+          "Om Marīcaye Namaḥ",
+          "Om Ādityāya Namaḥ",
+          "Om Savitre Namaḥ",
+          "Om Arkāya Namaḥ",
+          "Om Bhāskarāya Namaḥ",
+        ],
+      },
+      {
+        heading: "Sūrya Prārthanā",
+        lines: [
+          "Ādideva Namastubhyaṃ Prasīda Mama Bhāskara",
+          "Divākara Namastubhyaṃ Prabhākara Namo'stu Te",
+          "",
+          "Ādityasya Namaskāraṃ Ye Kurvanti Dine Dine",
+          "Janmāntara Sahasreṣu Dāridryaṃ Nopajāyate",
+        ],
+      },
+    ],
+  },
+  {
+    id: "durga",
+    title: "Durgādevīstavaṃ — Arjuna Kṛta",
+    deity: "Devi Durga",
+    icon: "🔥",
+    color: "#8B0000",
+    subtitle: "From the uploaded image — Arjuna's hymn to Durgā in IAST",
+    sections: [
+      {
+        heading: "Durgādevīstavaṃ · Śrīarjuna Uvāca",
+        lines: [
+          "Namaste Siddhasenāni Ārye Mamdaravāsini",
+          "Kumāri Kāli Kāpāli Kapile Kṛṣṇapiṅgale",
+          "Bhadrakāli Namastubhyaṃ Mahākāli Namostute",
+          "Chaṇḍichaṇḍe Namastubhyaṃ Tāriṇi Varavarṇini",
+          "Kātyāyani Mahābhāge Karāli Vijaye Jaye",
+          "Śikhipichchhadhvajadhare Nānābharaṇabhūṣite",
+          "Aṭṭaśūlapraharaṇe Khaḍgakheṭadhāriṇi",
+          "Gopendrasyānuje Jyeṣṭhe Nandagopākulodbhave",
+          "Mahiṣāsṛkpriye Nityaṃ Kauśikī Pītavāsini",
+          "Aṭṭahāse Kokamukhe Namaste'stu Raṇapriye",
+          "Ume Śākambari Śvete Kṛṣṇe Kaiṭabhanāśini",
+          "Hiraṇyākṣi Virūpākṣi Sudhūmrākṣi Namo'stu Te",
+          "Vedaśruti Mahāpuṇye Brahmaṇye Jātavedasi",
+          "Jambūkāṭakacaityeṣu Nityaṃ Sannihitālaye",
+          "Tvaṃ Brahmavidyāvidyānāṃ Mahānidrā Ca Dehinām",
+          "Skandamātarbhagavati Durge Kāṃtāravāsini",
+          "Svāhākāraḥ Svadhā Caiva Kalā Kāṣṭhā Sarasvatī",
+          "Sāvitrī Vedamātā Ca Tathā Vedānta Ucyate",
+          "Kāṃtārabhayudurgeṣu Bhaktānāṃ Cālayeṣu Ca",
+          "Nityaṃ Vasasi Pātāle Yuddhe Jayasi Dānavān",
+          "Tvaṃ Jambhanī Mohinī Ca Māyā Hrīḥ Śrīstathaiva Ca",
+          "Saṃdhyā Prabhāvatī Caiva Sāvitrī Jananī Tathā",
+          "Tuṣṭiḥ Puṣṭirdhr̥tiḥdīptiścaṃdrādityavivardhini",
+          "Bhūtirbhūtimatāṃ Saṃkhye Vīkṣyase Siddhachāraṇaiḥ",
+          "Stutāsi Tvaṃ Mahādevi Viśuddhenāntarātmanā",
+          "Jayo Bhavatu Me Nityaṃ Tvatprasādādranāṃjire",
+        ],
+      },
+    ],
+  },
+  {
+    id: "lakshmi",
+    title: "Mahālakṣmī Aṣṭakam",
+    deity: "Devi Mahalakshmi",
+    icon: "🪷",
+    color: "#C71585",
+    subtitle: "Indra Uvācha — From Padma Purāṇa",
+    sections: [
+      {
+        heading: "Mahālakṣmī Aṣṭakam",
+        lines: [
+          "Namaste'stu Mahāmāye Śrīpīṭhe Surapūjite",
+          "Śaṅkhachakra Gadāhaste Mahālakṣmi Namo'stu Te ॥1॥",
+          "",
+          "Namaste Garuḍārūḍhe Kolāsura Bhayaṅkari",
+          "Sarvapāpahare Devi Mahālakṣmi Namo'stu Te ॥2॥",
+          "",
+          "Sarvajñe Sarvavarade Sarva Duṣṭa Bhayaṅkari",
+          "Sarvaduḥkha Hare Devi Mahālakṣmi Namo'stu Te ॥3॥",
+          "",
+          "Siddhi Buddhi Prade Devi Bhukti Mukti Pradāyini",
+          "Mantra Mūrte Sadā Devi Mahālakṣmi Namo'stu Te ॥4॥",
+          "",
+          "Ādyanta Rahite Devi Ādiśakti Maheśvari",
+          "Yogajñe Yoga Sambhūte Mahālakṣmi Namo'stu Te ॥5॥",
+          "",
+          "Sthūla Sūkṣma Mahāraudre Mahāśakti Mahodare",
+          "Mahā Pāpa Hare Devi Mahālakṣmi Namo'stu Te ॥6॥",
+          "",
+          "Padmāsana Sthite Devi Parabrahma Svarūpiṇi",
+          "Parameśi Jaganmātaḥ Mahālakṣmi Namo'stu Te ॥7॥",
+          "",
+          "Śvetāmbaradhare Devi Nānālaṅkāra Bhūṣite",
+          "Jagatsthite Jaganmātaḥ Mahālakṣmi Namo'stu Te ॥8॥",
+        ],
+      },
+      {
+        heading: "Phalaśruti",
+        lines: [
+          "Mahālakṣmyaṣṭakaṃ Stotraṃ Yaḥ Paṭhed Bhaktimān Naraḥ",
+          "Sarva Siddhi Mavāpnoti Rājyaṃ Prāpnoti Sarvadā",
+          "",
+          "Ekakāle Paṭhennityaṃ Mahāpāpa Vināśanam",
+          "Dvikālaṃ Yaḥ Paṭhennityaṃ Dhana Dhānya Samanvitaḥ",
+          "",
+          "Trikālaṃ Yaḥ Paṭhennityaṃ Mahāśatru Vināśanam",
+          "Mahālakṣmīr Bhavennityaṃ Prasannā Varadā Śubhā",
+        ],
+      },
+    ],
+  },
+  {
+    id: "kanakadhara",
+    title: "Kanakadhārā Stotram",
+    deity: "Devi Lakshmi",
+    icon: "✨",
+    color: "#DAA520",
+    subtitle: "By Śrī Ādi Śaṅkarāchārya — Nanduri Srinivas Chanting Order",
+    sections: [
+      {
+        heading: "Vandana",
+        lines: [
+          "Vandē vandāru mandāramindirānandakandalam",
+          "Amandānandasandōha bandhuraṃ sindhurānanam",
+        ],
+      },
+      {
+        heading: "Opening Invocation",
+        lines: [
+          "Kamalē kamalākṣavallabhē tvaṃ",
+          "Karuṇāpūrataraṅgitairapāṅgaiḥ",
+          "Avalōkaya māmakiñchanānāṃ",
+          "Prathamaṃ pātramakṛtrimaṃ dayāyāḥ ॥",
+        ],
+      },
+      {
+        heading: "Verses 1–5",
+        lines: [
+          "Aṅgaṃ harēḥ pulakabhūṣaṇamāśrayantī",
+          "Bhṛṅgāṅganēva mukuḻābharaṇaṃ tamālam",
+          "Aṅgīkṛtākhilavibhūtirapāṅgalīlā",
+          "Māṅgaḻyadāstu mama maṅgaḻadēvatāyāḥ ॥1॥",
+          "",
+          "Mugdhā muhurvidadhatī vadanē murārēḥ",
+          "Prēmatrapāpraṇihitāni gatāgatāni",
+          "Mālā dṛśōrmadhukarīva mahōtpalē yā",
+          "Sā mē śriyaṃ diśatu sāgarasambhavāyāḥ ॥2॥",
+          "",
+          "Āmīlitākṣamadhigamya mudā mukundam-",
+          "Ānandakandamanimēṣamanaṅgatantram",
+          "Ākēkarasthitakanīnikapakṣmanētraṃ",
+          "Bhūtyai bhavēnmama bhujaṅgaśayāṅganāyāḥ ॥3॥",
+          "",
+          "Bāhvantarē madhujitaḥ śritakaustubhē yā",
+          "Hārāvaḻīva harinīlamayī vibhāti",
+          "Kāmapradā bhagavatō'pi kaṭākṣamālā",
+          "Kalyāṇamāvahatu mē kamalālayāyāḥ ॥4॥",
+          "",
+          "Kālāmbudāḻilalitōrasi kaiṭabhārēḥ",
+          "Dhārādharē sphurati yā taṭidaṅganēva",
+          "Mātussamastajagatāṃ mahanīyamūrtiḥ",
+          "Bhadrāṇi mē diśatu bhārgavanandanāyāḥ ॥5॥",
+        ],
+      },
+      {
+        heading: "Verses 6–10",
+        lines: [
+          "Prāptaṃ padaṃ prathamataḥ khalu yatprabhāvāt",
+          "Māṅgaḻyabhāji madhumāthini manmathēna",
+          "Mayyāpatēttadiha mantharamīkṣaṇārdhaṃ",
+          "Mandālasaṃ cha makarālayakanyakāyāḥ ॥6॥",
+          "",
+          "Viśvāmarēndrapadavibhramadānadakṣaṃ",
+          "Ānandahēturadhikaṃ muravidviṣō'pi",
+          "Īṣanniṣīdatu mayi kṣaṇamīkṣaṇārthaṃ",
+          "Indīvarōdarasahōdaramindirāyāḥ ॥7॥",
+          "",
+          "Iṣṭā viśiṣṭamatayō'pi yayā dayārdra",
+          "Dṛṣṭyā triviṣṭapapadaṃ sulabhaṃ labhantē",
+          "Dṛṣṭiḥ prahṛṣṭa kamalōdaradīptiriṣṭāṃ",
+          "Puṣṭiṃ kṛṣīṣṭa mama puṣkaraviṣṭarāyāḥ ॥8॥",
+          "",
+          "Dadyāddayānupavanō draviṇāmbudhārā-",
+          "Masminna kiñchana vihaṅgaśiśau viṣaṇṇē",
+          "Duṣkarmagharmamapanīya chirāya dūraṃ",
+          "Nārāyaṇapraṇayinīnayanāmbuvāhaḥ ॥9॥",
+          "",
+          "Gīrdēvatēti garuḍadhvajasundarīti",
+          "Śākambharīti śaśiśēkharavallabhēti",
+          "Sṛṣṭisthitipraḻayakēliṣu saṃsthitāyai",
+          "Tasyai namastribhuvanaikagurōstaruṇyai ॥10॥",
+        ],
+      },
+      {
+        heading: "Namaḥ Ślokāḥ (11–15)",
+        lines: [
+          "Śrutyai namō'stu śubhakarmaphalaprasūtyai",
+          "Ratyai namō'stu ramaṇīyaguṇārṇavāyai",
+          "Śaktyai namō'stu śatapatranikētanāyai",
+          "Puṣṭyai namō'stu puruṣōttamavallabhāyai ॥11॥",
+          "",
+          "Namō'stu nāḻīkanibhānanāyai",
+          "Namō'stu dugdhōdadhijanmabhūmyai",
+          "Namō'stu sōmāmṛtasōdarāyai",
+          "Namō'stu nārāyaṇavallabhāyai ॥12॥",
+          "",
+          "Namō'stu hēmāmbujapīṭhikāyai",
+          "Namō'stu bhūmaṇḍalanāyikāyai",
+          "Namō'stu dēvādidayāparāyai",
+          "Namō'stu śārṅgāyudhavallabhāyai ॥13॥",
+          "",
+          "Namō'stu dēvyai bhṛgunandanāyai",
+          "Namō'stu viṣṇōrurasisthitāyai",
+          "Namō'stu lakṣmyai kamalālayāyai",
+          "Namō'stu dāmōdaravallabhāyai ॥14॥",
+          "",
+          "Namō'stu kāntyai kamalēkṣaṇāyai",
+          "Namō'stu bhūtyai bhuvanaprasūtyai",
+          "Namō'stu dēvādibhirarchitāyai",
+          "Namō'stu nandātmajavallabhāyai ॥15॥",
+        ],
+      },
+      {
+        heading: "Verses 16–19",
+        lines: [
+          "Sampatkarāṇi sakalēndriyanandanāni",
+          "Sāmrājyadānavibhavāni sarōruhākṣi",
+          "Tvadvandanāni duritōddharaṇōdyatāni",
+          "Māmēva mātaraniśaṃ kalayantu mānyē ॥16॥",
+          "",
+          "Yatkaṭākṣasamupāsanāvidhiḥ",
+          "Sēvakasya sakalārthasampadaḥ",
+          "Santanōti vachanāṅgamānasaiḥ",
+          "Tvāṃ murārihṛdayēśvarīṃ bhajē ॥17॥",
+          "",
+          "Sarasijanilayē sarōjahastē",
+          "Dhavaḻatamāṃśukagandhamālyaśōbhē",
+          "Bhagavati harivallabhē manōjñē",
+          "Tribhuvanabhūtikari prasīda mahyam ॥18॥",
+          "",
+          "Digghastibhiḥ kanakakumbhamukhāvasṛṣṭa",
+          "Svarvāhinī vimalachārujalaplutāṅgīm",
+          "Prātarnamāmi jagatāṃ jananīmaśēṣa",
+          "Lōkādhinātha-gṛhiṇīm-amṛtābdhiputrīm ॥19॥",
+        ],
+      },
+      {
+        heading: "Closing & Phalaśruti",
+        lines: [
+          "Stuvanti yē stutibhiramūbhiranvahaṃ",
+          "Trayīmayīṃ tribhuvanamātaraṃ ramām",
+          "Guṇādhikā gurutara-bhāgya-bhāginō",
+          "Bhavanti tē bhuvi budhabhāvitāśayāḥ ॥21॥",
+          "",
+          "Suvarṇadhārāstōtraṃ yachChaṅkarāchārya nirmitam",
+          "Trisandhyaṃ yaḥ paṭhēnnityaṃ sa kubērasamō bhavēt",
+          "",
+          "Iti Śrīmat Śaṅkarabhagavataḥ kṛtau",
+          "Kanakadhārāstōtraṃ Sampūrṇam ॥",
+        ],
+      },
+    ],
+  },
+  {
+    id: "matangi",
+    title: "Mātaṅgeśvarī Mantra",
+    deity: "Devi Matangi",
+    icon: "💚",
+    color: "#2E8B57",
+    subtitle: "For career success and speedy fulfillment of desires",
+    hasCounter: true,
+    sections: [
+      {
+        heading: "Mātaṅgeśvarī Udyoga Mantra",
+        lines: [
+          "Om Namo Mātaṅgeśvarī",
+          "Sarva Rāja Mukha Rañjanī",
+          "Hlīṃ Klīṃ Śrīṃ",
+          "Mama Śīghra Abhiṣṭa Udyogame",
+          "Sadya Sadya Svāhā",
+        ],
+      },
+      {
+        heading: "Practice",
+        lines: [
+          "Chant 108 times daily with green cloth, sandalwood, and jasmine.",
+          "Face East during Brahma Muhurta or evening twilight.",
+          "Especially potent on Fridays and during Rāhu Kāla.",
+        ],
+      },
+    ],
+  },
+  {
+    id: "saravanabhava",
+    title: "Om Saravāṇabhavāya Namaḥ",
+    deity: "Lord Murugan (Kārttikeya)",
+    icon: "🔱",
+    color: "#E04040",
+    subtitle: "Ṣaḍakṣara Mantra of Lord Subrahmaṇya",
+    sections: [
+      {
+        heading: "Ṣaḍakṣara Mantra",
+        lines: [
+          "Om Saravāṇabhavāya Namaḥ",
+        ],
+      },
+      {
+        heading: "The Six Syllables — Sa-Ra-Va-Na-Bha-Va",
+        lines: [
+          "Sa — Attracts the grace of the Divine",
+          "Ra — Illuminates the light of knowledge",
+          "Va — Removes ego and attachment",
+          "Na — Destroys negative karma",
+          "Bha — Bestows divine radiance",
+          "Va — Grants the energy of Lord Subrahmaṇya",
+        ],
+      },
+      {
+        heading: "Practice",
+        lines: [
+          "Chant 108 times or in multiples of 6.",
+          "Especially powerful on Tuesdays and during Ṣaṣṭhī tithi.",
+          "Ideal for removing obstacles, gaining courage, and spiritual clarity.",
+        ],
+      },
+    ],
+  },
+  {
+    id: "navagraha",
+    title: "Navagraha Mantras",
+    deity: "Nine Planets",
+    icon: "🌙",
+    color: "#4B0082",
+    subtitle: "From the uploaded image — 134_Navagraha Lyrics",
+    sections: [
+      {
+        heading: "1. Sūrya (Sun)",
+        lines: [
+          "Japākusuma Saṃkāśaṃ Kāśyapeyaṃ Mahādyutim",
+          "Tamōriṃ Sarva Pāpaghnaṃ Praṇatōsmi Divākaram",
+          "Sūryāya Namaḥ",
+        ],
+      },
+      {
+        heading: "2. Chandra (Moon)",
+        lines: [
+          "Dadhi Śaṃkha Tuṣārābhaṃ Kṣīrōdārṇava Sambhavam",
+          "Namāmi Śaśinaṃ Sōmaṃ Śambhōr Makuṭa Bhūṣaṇaṃ",
+          "Chandrāya Namaḥ",
+        ],
+      },
+      {
+        heading: "3. Maṅgala (Mars)",
+        lines: [
+          "Dharaṇī Garbha Saṃbhūtaṃ Vidyut Kānti Samaprabhām",
+          "Kumāraṃ Śakti Hastaṃ Taṃ Maṅgalaṃ Praṇamāmyahaṃ",
+          "Aṃgārakāya Namaḥ",
+        ],
+      },
+      {
+        heading: "4. Budha (Mercury)",
+        lines: [
+          "Priyaṃgu Kalikā Śyāmaṃ Rūpeṇā'pratimam Budhaṃ",
+          "Saumyaṃ Sarva Guṇō Paetaṃ Taṃ Budhaṃ Praṇamāmyahaṃ",
+          "Budhāya Namaḥ",
+        ],
+      },
+      {
+        heading: "5. Bṛhaspati (Jupiter)",
+        lines: [
+          "Devānāṃcha Buśīnāṃcha Guruṃ Kāñchana Sannibhaṃ",
+          "Buddhdhimantaṃ Trilōkēśaṃ Taṃ Namāmi Bṛhaspatiṃ",
+          "Bṛhaspataye Namaḥ",
+        ],
+      },
+      {
+        heading: "6. Śukra (Venus)",
+        lines: [
+          "Hima Kuṃda Mṛṇālābhaṃ Daityānāṃ Paramaṃ Guruṃ",
+          "Sarva Śāstra Pravaktāraṃ Bhārgavaṃ Praṇamāmyaham",
+          "Śukrāya Namaḥ",
+        ],
+      },
+      {
+        heading: "7. Śani (Saturn)",
+        lines: [
+          "Nīlāñjana Samābhāsaṃ Raviputraṃ Yamāgrajaṃ",
+          "Chāyā Mārtāṇḍa Saṃbhūtaṃ Taṃ Namāmi Śanaiścharaṃ",
+          "Śanaiścharāya Namaḥ",
+        ],
+      },
+      {
+        heading: "8. Rāhu",
+        lines: [
+          "Ardha Kāyaṃ Mahā Vīraṃ Chandraādityavimardanam",
+          "Siṃhikā Garbha Saṃbhūtaṃ Rāhuṃtaṃ Praṇamāmyahaṃ",
+          "Rāhave Namaḥ",
+        ],
+      },
+      {
+        heading: "9. Ketu",
+        lines: [
+          "Palāśa Puṣpa Saṃkāśaṃ Tārakā Graha Mastakaṃ",
+          "Raudraṃ Raudrātmakaṃ Ghōraṃ Taṃ Ketuṃ Praṇamāmyahaṃ",
+          "Ketave Namaḥ",
+        ],
+      },
+    ],
+  },
+];
+
+function PrayerView({ prayer, onBack }) {
+  const topRef = useRef(null);
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    topRef.current?.scrollIntoView({ behavior: "auto" });
+    setCount(0);
+  }, [prayer.id]);
+
+  return (
+    <div style={{ minHeight: "100vh", background: "#0A0A0F" }}>
+      <div ref={topRef} />
+
+      {/* Header */}
+      <div
+        style={{
+          background: `linear-gradient(135deg, ${prayer.color}22, ${prayer.color}08)`,
+          borderBottom: `1px solid ${prayer.color}33`,
+          padding: "20px 24px",
+          position: "sticky",
+          top: 0,
+          zIndex: 10,
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+        }}
+      >
+        <button
+          onClick={onBack}
+          style={{
+            background: "none",
+            border: "none",
+            color: "#888",
+            fontSize: 14,
+            cursor: "pointer",
+            padding: 0,
+            marginBottom: 8,
+            fontFamily: "'EB Garamond', Georgia, serif",
+            letterSpacing: "0.05em",
+          }}
+        >
+          ← Back to all prayers
+        </button>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <span style={{ fontSize: 28 }}>{prayer.icon}</span>
+          <div>
+            <h1
+              style={{
+                margin: 0,
+                fontFamily: "'EB Garamond', Georgia, serif",
+                fontSize: 22,
+                color: "#F5F0E8",
+                fontWeight: 500,
+              }}
+            >
+              {prayer.title}
+            </h1>
+            {prayer.subtitle && (
+              <p
+                style={{
+                  margin: "4px 0 0",
+                  fontSize: 12,
+                  color: "#999",
+                  fontFamily: "'EB Garamond', Georgia, serif",
+                  fontStyle: "italic",
+                }}
+              >
+                {prayer.subtitle}
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Note */}
+      {prayer.note && (
+        <div
+          style={{
+            margin: "16px 24px",
+            padding: "12px 16px",
+            background: `${prayer.color}11`,
+            borderLeft: `3px solid ${prayer.color}66`,
+            borderRadius: 4,
+            fontSize: 13,
+            color: "#BBB",
+            fontFamily: "'EB Garamond', Georgia, serif",
+            lineHeight: 1.6,
+          }}
+        >
+          {prayer.note}
+        </div>
+      )}
+
+      {/* Counter Widget */}
+      {prayer.hasCounter && (
+        <div
+          style={{
+            margin: "20px 24px",
+            padding: "24px",
+            background: `${prayer.color}0D`,
+            border: `1px solid ${prayer.color}30`,
+            borderRadius: 12,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 12,
+          }}
+        >
+          <div
+            style={{
+              fontFamily: "'EB Garamond', Georgia, serif",
+              fontSize: 14,
+              color: "#999",
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+            }}
+          >
+            Japa Count
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+            <button
+              onClick={() => setCount((c) => Math.max(0, c - 1))}
+              style={{
+                width: 48,
+                height: 48,
+                borderRadius: "50%",
+                border: `2px solid ${prayer.color}55`,
+                background: `${prayer.color}1A`,
+                color: "#F5F0E8",
+                fontSize: 24,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontFamily: "system-ui",
+                transition: "all 0.15s ease",
+              }}
+            >
+              −
+            </button>
+            <div
+              style={{
+                fontFamily: "'EB Garamond', Georgia, serif",
+                fontSize: 56,
+                fontWeight: 600,
+                color: prayer.color,
+                minWidth: 80,
+                textAlign: "center",
+                lineHeight: 1,
+                textShadow: `0 0 40px ${prayer.color}33`,
+              }}
+            >
+              {count}
+            </div>
+            <button
+              onClick={() => setCount((c) => Math.min(9, c + 1))}
+              style={{
+                width: 48,
+                height: 48,
+                borderRadius: "50%",
+                border: `2px solid ${prayer.color}55`,
+                background: `${prayer.color}1A`,
+                color: "#F5F0E8",
+                fontSize: 24,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontFamily: "system-ui",
+                transition: "all 0.15s ease",
+              }}
+            >
+              +
+            </button>
+          </div>
+          <button
+            onClick={() => setCount(0)}
+            style={{
+              background: `${prayer.color}15`,
+              border: `1px solid ${prayer.color}33`,
+              borderRadius: 6,
+              color: "#AAA",
+              fontSize: 12,
+              cursor: "pointer",
+              fontFamily: "'EB Garamond', Georgia, serif",
+              letterSpacing: "0.05em",
+              padding: "6px 16px",
+              marginTop: 4,
+            }}
+          >
+            Reset
+          </button>
+        </div>
+      )}
+
+      {/* Sections */}
+      <div style={{ padding: "8px 24px 60px" }}>
+        {prayer.sections.map((section, si) => (
+          <div key={si} style={{ marginBottom: 32 }}>
+            <h2
+              style={{
+                fontFamily: "'EB Garamond', Georgia, serif",
+                fontSize: 16,
+                color: prayer.color,
+                fontWeight: 500,
+                marginBottom: 12,
+                paddingBottom: 6,
+                borderBottom: `1px solid ${prayer.color}22`,
+                letterSpacing: "0.03em",
+              }}
+            >
+              {section.heading}
+            </h2>
+            <div
+              style={{
+                fontFamily: "'EB Garamond', Georgia, serif",
+                fontSize: 17,
+                lineHeight: 2,
+                color: "#E8E0D0",
+              }}
+            >
+              {section.lines.map((line, li) =>
+                line === "" ? (
+                  <div key={li} style={{ height: 12 }} />
+                ) : (
+                  <div
+                    key={li}
+                    style={{
+                      padding: "2px 0",
+                      letterSpacing: "0.02em",
+                    }}
+                  >
+                    {line}
+                  </div>
+                )
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default function DailySadhanaBook() {
+  const [selected, setSelected] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [unlocked, setUnlocked] = useState(false);
+  const [pwd, setPwd] = useState("");
+  const [pwdError, setPwdError] = useState(false);
+
+  const handleUnlock = () => {
+    if (pwd === "VISHNU") {
+      setUnlocked(true);
+      setPwdError(false);
+    } else {
+      setPwdError(true);
+      setPwd("");
+    }
+  };
+
+  const filtered = prayers.filter(
+    (p) =>
+      p.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      p.deity.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  if (!unlocked) {
+    return (
+      <div
+        style={{
+          minHeight: "100vh",
+          background: "#0A0A0F",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          fontFamily: "'EB Garamond', Georgia, serif",
+          padding: 24,
+        }}
+      >
+        <link
+          href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+          rel="stylesheet"
+        />
+        <div
+          style={{
+            fontSize: 56,
+            marginBottom: 16,
+            filter: "drop-shadow(0 0 30px rgba(218,165,32,0.3))",
+          }}
+        >
+          🕉️
+        </div>
+        <h1
+          style={{
+            margin: 0,
+            fontSize: 28,
+            color: "#F5F0E8",
+            fontWeight: 500,
+            letterSpacing: "0.04em",
+            marginBottom: 6,
+          }}
+        >
+          Daily Sādhana
+        </h1>
+        <p
+          style={{
+            margin: "0 0 32px",
+            fontSize: 14,
+            color: "#666",
+            fontStyle: "italic",
+          }}
+        >
+          Enter the sacred word to proceed
+        </p>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, width: "100%", maxWidth: 280 }}>
+          <input
+            type="password"
+            placeholder="Password"
+            value={pwd}
+            onChange={(e) => { setPwd(e.target.value); setPwdError(false); }}
+            onKeyDown={(e) => e.key === "Enter" && handleUnlock()}
+            autoFocus
+            style={{
+              width: "100%",
+              boxSizing: "border-box",
+              padding: "14px 18px",
+              background: "#151520",
+              border: pwdError ? "1px solid #8B0000" : "1px solid #2a2a35",
+              borderRadius: 10,
+              color: "#F5F0E8",
+              fontSize: 18,
+              fontFamily: "'EB Garamond', Georgia, serif",
+              textAlign: "center",
+              letterSpacing: "0.15em",
+              outline: "none",
+            }}
+          />
+          {pwdError && (
+            <p style={{ margin: 0, fontSize: 13, color: "#8B0000" }}>
+              Incorrect. Try again.
+            </p>
+          )}
+          <button
+            onClick={handleUnlock}
+            style={{
+              width: "100%",
+              padding: "12px",
+              background: "linear-gradient(135deg, #DAA52033, #DAA52011)",
+              border: "1px solid #DAA52044",
+              borderRadius: 10,
+              color: "#F5F0E8",
+              fontSize: 16,
+              fontFamily: "'EB Garamond', Georgia, serif",
+              cursor: "pointer",
+              letterSpacing: "0.06em",
+            }}
+          >
+            Enter
+          </button>
+        </div>
+        <p
+          style={{
+            marginTop: 48,
+            fontSize: 12,
+            color: "#333",
+            fontStyle: "italic",
+          }}
+        >
+          Om Śāntiḥ Śāntiḥ Śāntiḥ
+        </p>
+      </div>
+    );
+  }
+
+  if (selected) {
+    const prayer = prayers.find((p) => p.id === selected);
+    return <PrayerView prayer={prayer} onBack={() => setSelected(null)} />;
+  }
+
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "#0A0A0F",
+        fontFamily: "'EB Garamond', Georgia, serif",
+      }}
+    >
+      <link
+        href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+        rel="stylesheet"
+      />
+
+      {/* Hero */}
+      <div
+        style={{
+          padding: "40px 24px 24px",
+          textAlign: "center",
+          background:
+            "radial-gradient(ellipse at 50% 0%, #1a1520 0%, #0A0A0F 70%)",
+        }}
+      >
+        <div
+          style={{
+            fontSize: 40,
+            marginBottom: 8,
+            filter: "drop-shadow(0 0 20px rgba(218,165,32,0.3))",
+          }}
+        >
+          🕉️
+        </div>
+        <h1
+          style={{
+            margin: 0,
+            fontSize: 28,
+            color: "#F5F0E8",
+            fontWeight: 500,
+            letterSpacing: "0.04em",
+          }}
+        >
+          Daily Sādhana
+        </h1>
+        <p
+          style={{
+            margin: "6px 0 0",
+            fontSize: 14,
+            color: "#777",
+            fontStyle: "italic",
+          }}
+        >
+          A complete chanting guide for daily practice
+        </p>
+      </div>
+
+      {/* Search */}
+      <div style={{ padding: "8px 24px 16px" }}>
+        <input
+          type="text"
+          placeholder="Search prayers..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          style={{
+            width: "100%",
+            boxSizing: "border-box",
+            padding: "10px 14px",
+            background: "#151520",
+            border: "1px solid #2a2a35",
+            borderRadius: 8,
+            color: "#E8E0D0",
+            fontSize: 15,
+            fontFamily: "'EB Garamond', Georgia, serif",
+            outline: "none",
+          }}
+        />
+      </div>
+
+      {/* Prayer Cards */}
+      <div style={{ padding: "0 24px 40px" }}>
+        {filtered.map((prayer, i) => (
+          <button
+            key={prayer.id}
+            onClick={() => setSelected(prayer.id)}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 14,
+              width: "100%",
+              padding: "16px",
+              marginBottom: 8,
+              background: `linear-gradient(135deg, ${prayer.color}0A, transparent)`,
+              border: `1px solid ${prayer.color}1A`,
+              borderRadius: 10,
+              cursor: "pointer",
+              textAlign: "left",
+              transition: "all 0.2s ease",
+              position: "relative",
+              overflow: "hidden",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = `linear-gradient(135deg, ${prayer.color}18, ${prayer.color}08)`;
+              e.currentTarget.style.borderColor = `${prayer.color}33`;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = `linear-gradient(135deg, ${prayer.color}0A, transparent)`;
+              e.currentTarget.style.borderColor = `${prayer.color}1A`;
+            }}
+          >
+            <span
+              style={{
+                fontSize: 26,
+                width: 42,
+                height: 42,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                background: `${prayer.color}15`,
+                borderRadius: 8,
+                flexShrink: 0,
+              }}
+            >
+              {prayer.icon}
+            </span>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div
+                style={{
+                  fontSize: 16,
+                  fontFamily: "'EB Garamond', Georgia, serif",
+                  color: "#F5F0E8",
+                  fontWeight: 500,
+                  marginBottom: 2,
+                }}
+              >
+                {prayer.title}
+              </div>
+              <div
+                style={{
+                  fontSize: 12,
+                  color: "#777",
+                  fontFamily: "'EB Garamond', Georgia, serif",
+                }}
+              >
+                {prayer.deity}
+              </div>
+            </div>
+            <span style={{ color: "#555", fontSize: 18 }}>→</span>
+          </button>
+        ))}
+      </div>
+
+      {/* Footer */}
+      <div
+        style={{
+          textAlign: "center",
+          padding: "0 24px 32px",
+          fontSize: 12,
+          color: "#444",
+          fontStyle: "italic",
+        }}
+      >
+        Om Śāntiḥ Śāntiḥ Śāntiḥ
+      </div>
+    </div>
+  );
+}
